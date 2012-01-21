@@ -7,9 +7,9 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    d:DesignHeight="400" d:DesignWidth="400">
-    
-    <Grid x:Name="LayoutRoot" Background="#CC000000">
+    d:DesignHeight="400" d:DesignWidth="480">
+
+    <Grid Height="350" Width="480" x:Name="LayoutRoot" Background="#CC000000">
         <TextBlock x:Name="DayOfWeek" TextAlignment="Left" VerticalAlignment="Center"
                  TextWrapping="Wrap"
                        Margin="24,0,24,0" Style="{StaticResource PhoneTextTitle3Style}" Tap="DayOfWeek_Tap">

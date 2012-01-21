@@ -7,6 +7,9 @@
 
     <!--Application Resources-->
     <Application.Resources>
+        <Style x:Key="BolderPhoneTextTitle" BasedOn="{StaticResource PhoneTextTitle2Style}" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="36"/>
+        </Style>
     </Application.Resources>
 
     <Application.ApplicationLifetimeObjects>

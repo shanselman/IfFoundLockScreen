@@ -9,6 +9,8 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.ComponentModel;
+using System.Windows.Media.Imaging;
+using System.Xml.Serialization;
 
 namespace IfFoundLockScreen
 {
@@ -27,7 +29,6 @@ namespace IfFoundLockScreen
             Line1 = "Reward if found";
             Line2 = "email@yourdomain.com";
             Line3 = "+1.503.555.1212";
-
         }
     }
 }
