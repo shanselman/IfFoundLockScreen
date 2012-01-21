@@ -85,7 +85,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RewardModel.cs" />
     <Compile Include="ScreenShots.cs" />
-    <Compile Include="XmlSerializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -131,9 +130,9 @@
     <Resource Include="ApplicationIcon200x200.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Panorama1000x800.png">
+    <None Include="Panorama1000x800.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    </None>
     <Content Include="Content\About\Data.xml" />
     <Content Include="Images\appbar.cancel.rest.png" />
     <Content Include="Images\appbar.check.rest.png" />
@@ -142,9 +141,9 @@
     <Content Include="Images\appbar.save.rest.png" />
     <Content Include="Images\appbar.questionmark.rest.png" />
     <Resource Include="Images\initialwallpaper.jpg" />
-    <Content Include="Screenshot1-480x800.png">
+    <None Include="Screenshot1-480x800.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
     <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
   <ItemGroup />

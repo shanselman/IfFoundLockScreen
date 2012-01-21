@@ -49,7 +49,7 @@
         </Grid>
         
         <StackPanel x:Name="LockTextPanel" Grid.Row="0" Margin="12,32,0,28" Tap="LockTextPanel_Tap">
-            <!--<TextBlock x:Name="ApplicationTitle" Text="reward if found lockscreen" Style="{StaticResource PhoneTextContrastStyle}" Visibility="Collapsed"/>-->
+            <!--<TextBlock x:Name="ApplicationTitle" Text="lost phone lock screen" Style="{StaticResource PhoneTextContrastStyle}" Visibility="Collapsed"/>-->
             <TextBlock x:Name="FoundLine1" Text="{Binding Line1}" 
                        Margin="9,0,0,0" Style="{StaticResource BolderPhoneTextTitle}"/>
             <TextBlock x:Name="FoundLine2" Text="{Binding Line2}"  
@@ -83,7 +83,7 @@
             <shell:ApplicationBarIconButton 
                 IconUri="/Images/appbar.questionmark.rest.png" Text="Help" Click="ApplicationBarHelpIconButton_Click"/>
             <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="About Reward If Found" Click="ApplicationBarAboutMenuItem_Click" />
+                <shell:ApplicationBarMenuItem Text="About Lost Phone Lock Screen" Click="ApplicationBarAboutMenuItem_Click" />
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
