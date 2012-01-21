@@ -7,37 +7,58 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:popup="clr-namespace:IfFoundLockScreen"
-    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="696"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="728"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
-    shell:SystemTray.IsVisible="True">
-    
+    shell:SystemTray.IsVisible="False">
+
+    <toolkit:TransitionService.NavigationInTransition>
+        <toolkit:NavigationInTransition>
+            <toolkit:NavigationInTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardIn"/>
+            </toolkit:NavigationInTransition.Backward>
+            <toolkit:NavigationInTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardIn"/>
+            </toolkit:NavigationInTransition.Forward>
+        </toolkit:NavigationInTransition>
+    </toolkit:TransitionService.NavigationInTransition>
+    <toolkit:TransitionService.NavigationOutTransition>
+        <toolkit:NavigationOutTransition>
+            <toolkit:NavigationOutTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardOut"/>
+            </toolkit:NavigationOutTransition.Backward>
+            <toolkit:NavigationOutTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardOut"/>
+            </toolkit:NavigationOutTransition.Forward>
+        </toolkit:NavigationOutTransition>
+    </toolkit:TransitionService.NavigationOutTransition>
+
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Grid Width="480" Height="800" Grid.RowSpan="3">
+        <Grid Width="480" Height="800" Grid.RowSpan="2">
             <Image x:Name="CustomBackground" Source="Images\initialwallpaper.jpg" Margin="0,-64,0,0"/>
             <Border x:Name="DimBorder" Background="Black" Opacity="0.2"/>
         </Grid>
         
-        <!--TitlePanel contains the name of the application and page title-->
         <StackPanel x:Name="LockTextPanel" Grid.Row="0" Margin="12,32,0,28" Tap="LockTextPanel_Tap">
-            <TextBlock x:Name="ApplicationTitle" Text="reward if found lockscreen" Style="{StaticResource PhoneTextContrastStyle}" Visibility="Collapsed"/>
+            <!--<TextBlock x:Name="ApplicationTitle" Text="reward if found lockscreen" Style="{StaticResource PhoneTextContrastStyle}" Visibility="Collapsed"/>-->
             <TextBlock x:Name="FoundLine1" Text="{Binding Line1}" 
-                       Margin="9,0,0,0" Style="{StaticResource PhoneTextTitle2Style}"/>
+                       Margin="9,0,0,0" Style="{StaticResource BolderPhoneTextTitle}"/>
             <TextBlock x:Name="FoundLine2" Text="{Binding Line2}"  
-                       Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle2Style}"/>
+                       Margin="9,-7,0,0" Style="{StaticResource BolderPhoneTextTitle}"/>
             <TextBlock x:Name="FoundLine3" Text="{Binding Line3}" 
                        Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle2Style}"/>
         </StackPanel>
-        <StackPanel x:Name="TimePanel" Grid.Row="2" Margin="12,17,0,60" > <!-- L, T, R, B -->
+
+        <StackPanel x:Name="TimePanel" Grid.Row="1" Margin="12,140,0,0" > <!-- L, T, R, B -->
              <TextBlock x:Name="Time" Text="12:14" 
                        Margin="9,0,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
             <TextBlock x:Name="DayOfWeek" Text="Friday" 
@@ -56,13 +77,13 @@
             <shell:ApplicationBarIconButton 
                 IconUri="/Images/appbar.edit.rest.png" Text="Edit" Click="ApplicationBarEditIconButton_Click"/>
             <shell:ApplicationBarIconButton 
-                IconUri="/Images/appbar.feature.camera.rest.png" Text="Edit" Click="ApplicationBarPhotoIconButton_Click"/>
+                IconUri="/Images/appbar.feature.camera.rest.png" Text="Choose" Click="ApplicationBarPhotoIconButton_Click"/>
             <shell:ApplicationBarIconButton 
                 IconUri="/Images/appbar.save.rest.png" Text="Save" Click="ApplicationBarSaveIconButton_Click"/>
             <shell:ApplicationBarIconButton 
                 IconUri="/Images/appbar.questionmark.rest.png" Text="Help" Click="ApplicationBarHelpIconButton_Click"/>
             <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="About" />
+                <shell:ApplicationBarMenuItem Text="About Reward If Found" Click="ApplicationBarAboutMenuItem_Click" />
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

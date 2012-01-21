@@ -5,7 +5,7 @@ using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Input;
+using Input = System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
@@ -42,7 +42,19 @@ namespace IfFoundLockScreen
 
             photoChooserTask = new PhotoChooserTask();
             photoChooserTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed);
+
+            //this.Loaded += new RoutedEventHandler(MainPage_Loaded);
         }
+
+        void MainPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            BitmapImage bmp = ((App)App.Current).LoadCustomBackground();
+            if (bmp != null)
+            {
+                this.CustomBackground.Source = bmp;
+            }
+        }
+
 
         void photoChooserTask_Completed(object sender, PhotoResult e)
         {
@@ -52,52 +64,7 @@ namespace IfFoundLockScreen
                 bmp.SetSource(e.ChosenPhoto);
                 this.CustomBackground.Source = bmp;
 
-                SaveCustomBackground();
-
-            }
-        }
-
-        private BitmapImage LoadCustomBackground()
-        {
-            BitmapImage bi = new BitmapImage();
-
-            using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
-            {
-                using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile("custombackground.jpg", FileMode.Open, FileAccess.Read))
-                {
-                    bi.SetSource(fileStream);
-                }
-            }
-            return bi;
-        }
-
-        private void SaveCustomBackground()
-        {
-            BitmapImage bmp = this.CustomBackground.Source as BitmapImage;
-            String tempJPEG = "custombackground.jpg";
-            // Create virtual store and file stream. Check for duplicate tempJPEG files.
-            using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
-            {
-                if (myIsolatedStorage.FileExists(tempJPEG))
-                {
-                    myIsolatedStorage.DeleteFile(tempJPEG);
-                }
-
-                IsolatedStorageFileStream fileStream = myIsolatedStorage.CreateFile(tempJPEG);
-
-                StreamResourceInfo sri = null;
-                Uri uri = new Uri(tempJPEG, UriKind.Relative);
-                sri = Application.GetResourceStream(uri);
-
-                //BitmapImage bitmap = new BitmapImage();
-                //bitmap.SetSource(sri.Stream);
-                WriteableBitmap wb = new WriteableBitmap(bmp);
-
-                // Encode WriteableBitmap object to a JPEG stream.
-                Extensions.SaveJpeg(wb, fileStream, wb.PixelWidth, wb.PixelHeight, 0, 85);
-
-                //wb.SaveJpeg(fileStream, wb.PixelWidth, wb.PixelHeight, 0, 85);
-                fileStream.Close();
+                ((App)App.Current).SaveCustomBackground(bmp);
             }
         }
 
@@ -110,14 +77,19 @@ namespace IfFoundLockScreen
 
         private void ApplicationBarHelpIconButton_Click(object sender, EventArgs e)
         {
+            this.ApplicationBar.IsVisible = false;
             var p = new Popup();
             p.Child = new HelpPopup();
             p.VerticalOffset = 250;
             p.HorizontalOffset = 0;
             p.IsOpen = true;
+            p.Closed += (sender1, e1) =>
+            {
+                this.ApplicationBar.IsVisible = true;
+            };
         }
 
-        private void LockTextPanel_Tap(object sender, GestureEventArgs e)
+        private void LockTextPanel_Tap(object sender, Input.GestureEventArgs e)
         {
             this.NavigationService.Navigate(new Uri("/Editor.xaml", UriKind.Relative));
         }
@@ -144,7 +116,6 @@ namespace IfFoundLockScreen
         private void ApplicationBarSaveIconButton_Click(object sender, EventArgs e)
         {
             //TODO: Popup an explanation about what will happen, and encourage them to go to the media library
-
 
             // Create a popup. 
             var p = new Popup();
@@ -197,6 +168,11 @@ namespace IfFoundLockScreen
                 this.ApplicationBar.IsVisible = true;
                 this.TimePanel.Visibility = System.Windows.Visibility.Visible;
             }
+        }
+
+        private void ApplicationBarAboutMenuItem_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/YourLastAboutDialog;component/AboutPage.xaml", UriKind.Relative));
         }
     }
 }

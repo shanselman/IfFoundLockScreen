@@ -15,6 +15,8 @@ using Microsoft.Phone.Shell;
 using System.IO.IsolatedStorage;
 using System.IO;
 using System.Xml.Serialization;
+using System.Windows.Media.Imaging;
+using System.Windows.Resources;
 
 namespace IfFoundLockScreen
 {
@@ -82,6 +84,7 @@ namespace IfFoundLockScreen
                 {
                     var serializer = new XmlSerializer(typeof(RewardModel));
                     ViewModel = (RewardModel)serializer.Deserialize(reader);
+                    
                 }
             }
 
@@ -91,9 +94,6 @@ namespace IfFoundLockScreen
                 ViewModel = new RewardModel();
                 ViewModel.Update();
             }
-
-            
-            
 
             // set the frame DataContext
             RootFrame.DataContext = ViewModel;
@@ -108,6 +108,7 @@ namespace IfFoundLockScreen
                 ViewModel = PhoneApplicationService.Current.State[ModelKey] as RewardModel;
                 RootFrame.DataContext = ViewModel;
             }
+
         }
 
         private readonly string ModelKey = "ViewModel";
@@ -155,6 +156,55 @@ namespace IfFoundLockScreen
             }
         }
 
+        public BitmapImage LoadCustomBackground()
+        {
+            BitmapImage bi = new BitmapImage();
+
+            using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile("custombackground.jpg", FileMode.Open, FileAccess.Read))
+                {
+                    if (fileStream != null)
+                    {
+                        bi.SetSource(fileStream);
+                    }
+                }
+            }
+            return bi;
+        }
+
+        public void SaveCustomBackground(BitmapImage bmp)
+        {
+            String tempJPEG = "custombackground.jpg";
+            // Create virtual store and file stream. Check for duplicate tempJPEG files.
+            using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                if (myIsolatedStorage.FileExists(tempJPEG))
+                {
+                    myIsolatedStorage.DeleteFile(tempJPEG);
+                }
+
+                IsolatedStorageFileStream fileStream = myIsolatedStorage.CreateFile(tempJPEG);
+
+                StreamResourceInfo sri = null;
+                Uri uri = new Uri(tempJPEG, UriKind.Relative);
+                sri = Application.GetResourceStream(uri);
+
+                //BitmapImage bitmap = new BitmapImage();
+                //bitmap.SetSource(sri.Stream);
+                WriteableBitmap wb = new WriteableBitmap(bmp);
+
+                // Encode WriteableBitmap object to a JPEG stream.
+                Extensions.SaveJpeg(wb, fileStream, wb.PixelWidth, wb.PixelHeight, 0, 85);
+
+                //wb.SaveJpeg(fileStream, wb.PixelWidth, wb.PixelHeight, 0, 85);
+                fileStream.Close();
+            }
+        }
+
+
+
+
         #region Phone application initialization
 
         // Avoid double-initialization
@@ -168,7 +218,8 @@ namespace IfFoundLockScreen
 
             // Create the frame but don't set it as RootVisual yet; this allows the splash
             // screen to remain active until the application is ready to render.
-            RootFrame = new PhoneApplicationFrame();
+            //RootFrame = new PhoneApplicationFrame();
+            RootFrame = new TransitionFrame();
             RootFrame.Navigated += CompleteInitializePhoneApplication;
 
             // Handle navigation failures

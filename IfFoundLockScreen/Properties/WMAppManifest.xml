@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.1">
-  <App xmlns="" ProductID="{4244b6cd-77a3-40e4-94d4-e32ead41dc81}" Title="IfFoundLockScreen" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="IfFoundLockScreen author" Description="Sample description" Publisher="IfFoundLockScreen">
+  <App xmlns="" ProductID="{4244b6cd-77a3-40e4-94d4-e32ead41dc81}" Title="Reward if Found" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="IfFoundLockScreen author" Description="Sample description" Publisher="IfFoundLockScreen">
     <IconPath IsRelative="true" IsResource="false">ApplicationIcon62x62.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_GAMERSERVICES" />
@@ -26,7 +26,7 @@
         <TemplateType5>
           <BackgroundImageURI IsRelative="true" IsResource="false">ApplicationIcon173x173.png</BackgroundImageURI>
           <Count>0</Count>
-          <Title>IfFoundLockScreen</Title>
+          <Title>Reward If Found</Title>
         </TemplateType5>
       </PrimaryToken>
     </Tokens>
