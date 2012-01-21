@@ -7,39 +7,49 @@
   <!-- Explicitly set any of the attributes to an empty string to remove it (including its label) from the dialog -->
   <App Author="Scott Hanselman"
        Publisher="Scott Hanselman"       
-       AdditionalNotes="This is my first attempt at a Phone App. Be nice." />
-  <Items>
-    <!-- Create a MainItem entry to configure the front page -->
-    <!-- The Titel attribute defines the title of the pivot item -->
-    <!-- The Label (and review buttong content) attributes can override the default values to what you like, and also help with localization -->
-    <MainItem Title="about"
-              AppAuthorLabel="by"
-              AppDescriptionLabel="Description:"
-              AppPublisherLabel="Publisher:"
-              AppVersionLabel="Version:"
-              AppAdditionalNotesLabel="A Word From The Author:"
-              AppReviewButtonContent="Review this app!">
-      <Links>
-        <!-- A collection of links presented on the front page. -->
-        <!-- By using different protocols like http or mailto you can invoke the respective applications -->
-        <!-- The Label attribute defines an additional label placed in front of the hyperlink -->
-        <!-- Use this to provide contact/support details for your app -->
-        <Link NavigateUri="http://www.hansleman.com"
-               Content="http://www.hanselman.com"
-               Label="Web:" />
-        <Link NavigateUri="mailto:scott@hanselman.com"
-               Content="scott@hanselman.com"
-               Label="Support:" />
-      </Links>
-    </MainItem>
-    <!-- For each additional pivot item, add a separate Item entry. Ideas for items are: license, tutorial or help, version history, show room for other apps from you etc. -->
-    <!-- The Title attribute defines the title of the pivot item -->
-    <!-- Each Item can be a remote item (fetched from a Uri) or a local item (using its content), or both (local content is the fallback value if fetching the network content fails) -->
-    <!-- Supported types are "text" and "xaml", where text is nicely formatted automatically, and XAML is handled by the built-in XamlReader -->
-    <Item Title="history"
-           Type="text">
-      1.0.0.0
-      This is the initial public version.  
-    </Item>
-  </Items>
+       AdditionalNotes="This is my first attempt at a Phone App. Be nice. Big thanks to Jin Yang and Bil Simser. Be sure to visit the Credits area." />
+    <Items>
+        <!-- Create a MainItem entry to configure the front page -->
+        <!-- The Titel attribute defines the title of the pivot item -->
+        <!-- The Label (and review buttong content) attributes can override the default values to what you like, and also help with localization -->
+        <MainItem Title="about"
+                  AppAuthorLabel="by"
+                  AppDescriptionLabel="Description:"
+                  AppPublisherLabel="Publisher:"
+                  AppVersionLabel="Version:"
+                  AppAdditionalNotesLabel="A Word From The Author:"
+                  AppReviewButtonContent="Review this app!">
+            <Links>
+                <!-- A collection of links presented on the front page. -->
+                <!-- By using different protocols like http or mailto you can invoke the respective applications -->
+                <!-- The Label attribute defines an additional label placed in front of the hyperlink -->
+                <!-- Use this to provide contact/support details for your app -->
+                <Link NavigateUri="http://www.hansleman.com"
+                       Content="http://www.hanselman.com"
+                       Label="Web:" />
+                <Link NavigateUri="mailto:scott@hanselman.com"
+                       Content="scott@hanselman.com"
+                       Label="Support:" />
+            </Links>
+        </MainItem>
+        <!-- For each additional pivot item, add a separate Item entry. Ideas for items are: license, tutorial or help, version history, show room for other apps from you etc. -->
+        <!-- The Title attribute defines the title of the pivot item -->
+        <!-- Each Item can be a remote item (fetched from a Uri) or a local item (using its content), or both (local content is the fallback value if fetching the network content fails) -->
+        <!-- Supported types are "text" and "xaml", where text is nicely formatted automatically, and XAML is handled by the built-in XamlReader -->
+        <Item Title="credits" Type="text">
+            Code
+            Scott Hanselman wrote this as his first Windows Phone application in about 6 hours. He was kindly assisted at lunch by Hughes Hilton, who paid for tacos, and late into the night peer programming over Skype with the very patient Bil Simser who helped squash a few Heisenbugs.
+
+            Art
+            Jin Yang "@jzy" drew our sad little milk carton phone. Jin has been paid exclusively in bacon.
+
+            Stock Photo
+            The initial stock photo wallpaper is by Thomas Pentenreider. It's used under the Creative Commons License with Attribution. You can see more of Thomas' excellent Windows Phone 7 Wallpapers on Flickr at http://flic.kr/photos/pentenrieder.
+        </Item>
+        "<Item Title="history"
+      Type="text">
+            1.0.0.0
+            This is the initial public version.
+        </Item>
+    </Items>
 </About>

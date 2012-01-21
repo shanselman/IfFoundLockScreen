@@ -7,15 +7,25 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    d:DesignHeight="400" d:DesignWidth="480">
+    d:DesignHeight="525" d:DesignWidth="480">
 
-    <Grid Height="350" Width="480" x:Name="LayoutRoot" Background="#CC000000">
+    <Grid Height="525" Width="480" x:Name="LayoutRoot" Background="#CC000000" Tap="DayOfWeek_Tap">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
         <TextBlock x:Name="DayOfWeek" TextAlignment="Left" VerticalAlignment="Center"
-                 TextWrapping="Wrap"
-                       Margin="24,0,24,0" Style="{StaticResource PhoneTextTitle3Style}" Tap="DayOfWeek_Tap">
+                 TextWrapping="Wrap" Grid.Row="0" Grid.Column="0"
+                       Margin="24,0,24,0" Style="{StaticResource PhoneTextTitle3Style}" >
             If your phone is locked, what's the easiest way to find it? Remotely activate the GPS? 
-            <LineBreak/>
-            <LineBreak/>
+        </TextBlock>
+        <TextBlock x:Name="DayOfWeek2" TextAlignment="Left" VerticalAlignment="Center"
+                 TextWrapping="Wrap" Grid.Row="1" Grid.ColumnSpan="2"
+                       Margin="24,0,24,0" Style="{StaticResource PhoneTextTitle3Style}" Tap="DayOfWeek_Tap">
             Why not just put your contact information on the lockscreen?
             
             This app does that. It "stamps" details on your wallpaper of choice. 
@@ -23,6 +33,6 @@
             <LineBreak/>
             Then, set your new wallaper as your lockscreen from Windows Phone Settings.
         </TextBlock>
-
+        <Image Grid.Row="0" Grid.Column="1" Source="ApplicationIcon200x200.png" Width="200"/>
     </Grid>
 </UserControl>

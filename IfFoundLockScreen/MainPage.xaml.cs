@@ -43,15 +43,28 @@ namespace IfFoundLockScreen
             photoChooserTask = new PhotoChooserTask();
             photoChooserTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed);
 
-            //this.Loaded += new RoutedEventHandler(MainPage_Loaded);
+            this.Loaded += new RoutedEventHandler(MainPage_Loaded);
         }
 
         void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
+            if (((App)App.Current).ViewModel.SeenHelpOnce == false)
+            {
+                ApplicationBarHelpIconButton_Click(this, null);
+                ((App)App.Current).ViewModel.SeenHelpOnce = true;
+            }
+
             BitmapImage bmp = ((App)App.Current).LoadCustomBackground();
             if (bmp != null)
             {
                 this.CustomBackground.Source = bmp;
+            }
+            else //use the standard image
+            {
+                BitmapImage bi = new BitmapImage();
+                bi.CreateOptions = BitmapCreateOptions.None;
+                bi.UriSource = new Uri("Images\\initialwallpaper.jpg", UriKind.Relative);
+                this.CustomBackground.Source = bi;
             }
         }
 
@@ -80,7 +93,7 @@ namespace IfFoundLockScreen
             this.ApplicationBar.IsVisible = false;
             var p = new Popup();
             p.Child = new HelpPopup();
-            p.VerticalOffset = 250;
+            p.VerticalOffset = 200;
             p.HorizontalOffset = 0;
             p.IsOpen = true;
             p.Closed += (sender1, e1) =>
