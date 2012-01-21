@@ -161,19 +161,24 @@ namespace IfFoundLockScreen
 
         public BitmapImage LoadCustomBackground()
         {
-            BitmapImage bi = new BitmapImage();
+            
 
             using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile("custombackground.jpg", FileMode.Open, FileAccess.Read))
+                if(myIsolatedStorage.FileExists("custombackground.jpg"))
                 {
-                    if (fileStream != null)
+                    using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile("custombackground.jpg", FileMode.Open, FileAccess.Read))
                     {
-                        bi.SetSource(fileStream);
+                        if (fileStream != null)
+                        {
+                            BitmapImage bi = new BitmapImage();
+                            bi.SetSource(fileStream);
+                            return bi;
+                        }
                     }
                 }
             }
-            return bi;
+            return null;
         }
 
         public void SaveCustomBackground(BitmapImage bmp)

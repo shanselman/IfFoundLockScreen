@@ -22,10 +22,10 @@ namespace IfFoundLockScreen
 
         private void HelpSave_Tap(object sender, GestureEventArgs e)
         {
-            this.Visibility = System.Windows.Visibility.Collapsed;
             Popup p = this.Parent as Popup;
             if (p != null)
                 p.IsOpen = false;
+            //this.Visibility = System.Windows.Visibility.Collapsed;
         }
     }
 }

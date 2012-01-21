@@ -44,7 +44,7 @@
         </Grid.RowDefinitions>
 
         <Grid Width="480" Height="800" Grid.RowSpan="2">
-            <Image x:Name="CustomBackground" Source="Images\initialwallpaper.jpg" Margin="0,-64,0,0"/>
+            <Image x:Name="CustomBackground" Margin="0,0,0,0"/>
             <Border x:Name="DimBorder" Background="Black" Opacity="0.2"/>
         </Grid>
         
@@ -83,9 +83,8 @@
             <shell:ApplicationBarIconButton 
                 IconUri="/Images/appbar.questionmark.rest.png" Text="Help" Click="ApplicationBarHelpIconButton_Click"/>
             <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="About Lost Phone Lock Screen" Click="ApplicationBarAboutMenuItem_Click" />
+                <shell:ApplicationBarMenuItem Text="About Lost Phone Screen" Click="ApplicationBarAboutMenuItem_Click" />
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
-
 </phone:PhoneApplicationPage>
