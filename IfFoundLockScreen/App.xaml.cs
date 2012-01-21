@@ -69,6 +69,9 @@ namespace IfFoundLockScreen
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
 
+            //TODO: Screenshots!
+            //System.Windows.ScreenShots.BeginTakingPictures();
+
         }
 
         // Code to execute when the application is launching (eg, from Start)
