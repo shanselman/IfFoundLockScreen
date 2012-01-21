@@ -142,9 +142,6 @@
     <Content Include="Images\appbar.save.rest.png" />
     <Content Include="Images\appbar.questionmark.rest.png" />
     <Resource Include="Images\initialwallpaper.jpg" />
-    <None Include="Screenshot1-480x800.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
   <ItemGroup />

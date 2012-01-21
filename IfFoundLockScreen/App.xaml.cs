@@ -70,7 +70,7 @@ namespace IfFoundLockScreen
             }
 
             //TODO: Screenshots!
-            System.Windows.ScreenShots.BeginTakingPictures();
+            //System.Windows.ScreenShots.BeginTakingPictures();
 
         }
 
