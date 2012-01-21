@@ -78,6 +78,7 @@
     <Compile Include="HelpPopup.xaml.cs">
       <DependentUpon>HelpPopup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LittleWatson.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

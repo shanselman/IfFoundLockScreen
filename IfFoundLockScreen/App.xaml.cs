@@ -70,7 +70,7 @@ namespace IfFoundLockScreen
             }
 
             //TODO: Screenshots!
-            //System.Windows.ScreenShots.BeginTakingPictures();
+            System.Windows.ScreenShots.BeginTakingPictures();
 
         }
 
@@ -147,6 +147,8 @@ namespace IfFoundLockScreen
                 // A navigation has failed; break into the debugger
                 System.Diagnostics.Debugger.Break();
             }
+
+            LittleWatson.ReportException(e.Exception,"NavigationFailed");
         }
 
         // Code to execute on Unhandled Exceptions
@@ -157,6 +159,8 @@ namespace IfFoundLockScreen
                 // An unhandled exception has occurred; break into the debugger
                 System.Diagnostics.Debugger.Break();
             }
+
+            LittleWatson.ReportException(e.ExceptionObject,"UnhandledException");
         }
 
         public BitmapImage LoadCustomBackground()
