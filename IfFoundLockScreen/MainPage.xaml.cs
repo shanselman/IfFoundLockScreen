@@ -48,6 +48,8 @@ namespace IfFoundLockScreen
 
         void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
+            LittleWatson.CheckForPreviousException();
+
             if (((App)App.Current).ViewModel.SeenHelpOnce == false)
             {
                 ApplicationBarHelpIconButton_Click(this, null);
