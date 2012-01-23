@@ -141,9 +141,13 @@ namespace IfFoundLockScreen
             // Open the popup. 
             CollapseTime(true);
 
+
             p.IsOpen = true;
+            this.ProgressBar.IsIndeterminate = true;
+            this.ProgressBar.Visibility = System.Windows.Visibility.Visible;
             p.Closed += (sender1, e1) =>
             {
+
                 try
                 {
                     var bitmap = new System.Windows.Media.Imaging.WriteableBitmap(this.LayoutRoot, null);
@@ -165,6 +169,8 @@ namespace IfFoundLockScreen
                 finally
                 {
                     CollapseTime(false);
+                    this.ProgressBar.IsIndeterminate = false;
+                    this.ProgressBar.Visibility = System.Windows.Visibility.Collapsed;
                 }
             };
         }

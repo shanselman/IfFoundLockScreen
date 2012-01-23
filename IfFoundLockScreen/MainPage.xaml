@@ -14,7 +14,7 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="False">
-
+    
     <toolkit:TransitionService.NavigationInTransition>
         <toolkit:NavigationInTransition>
             <toolkit:NavigationInTransition.Backward>
@@ -47,7 +47,7 @@
             <Image x:Name="CustomBackground" Margin="0,0,0,0"/>
             <Border x:Name="DimBorder" Background="Black" Opacity="0.2"/>
         </Grid>
-        
+
         <StackPanel x:Name="LockTextPanel" Grid.Row="0" Margin="12,32,0,28" Tap="LockTextPanel_Tap">
             <!--<TextBlock x:Name="ApplicationTitle" Text="lost phone lock screen" Style="{StaticResource PhoneTextContrastStyle}" Visibility="Collapsed"/>-->
             <TextBlock x:Name="FoundLine1" Text="{Binding Line1}" 
@@ -69,6 +69,7 @@
 
         <popup:HelpPopup x:Name="popupHelp" Height="340" Width="480" Visibility="Collapsed" />
         <popup:HelpSavePopup x:Name="popupHelpSave" Height="340" Width="480" Visibility="Collapsed" />
+        <toolkit:PerformanceProgressBar MaxHeight="16" x:Name="ProgressBar" IsIndeterminate="False" Visibility="Collapsed" Height="16" VerticalAlignment="Top"/>
     </Grid>
  
     <!--Sample code showing usage of ApplicationBar-->
