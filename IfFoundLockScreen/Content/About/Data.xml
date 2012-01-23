@@ -50,6 +50,12 @@
       Type="text">
             1.0.0.0
             This is the initial public version.
+            
+            1.0.1.0
+            Help visible on the light theme now. (Tip: don't hardcode colors!)
+            Added OK button on Editor screen as the hardware back button isn't intuitive to all.
+            Added buttons to the Help and Save popups although tapping anywhere works also.
+            
         </Item>
     </Items>
 </About>

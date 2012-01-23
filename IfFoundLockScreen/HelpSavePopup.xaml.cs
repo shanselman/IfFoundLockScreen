@@ -18,6 +18,12 @@ namespace IfFoundLockScreen
         public HelpSavePopup()
         {
             InitializeComponent();
+            this.Loaded += new RoutedEventHandler(HelpSavePopup_Loaded);
+        }
+
+        void HelpSavePopup_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.LayoutRoot.Background.Opacity = 0.8;            
         }
 
         private void HelpSave_Tap(object sender, GestureEventArgs e)
@@ -26,6 +32,11 @@ namespace IfFoundLockScreen
             if (p != null)
                 p.IsOpen = false;
             //this.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private void Lameo_Click(object sender, RoutedEventArgs e)
+        {
+            HelpSave_Tap(sender, null);
         }
     }
 }

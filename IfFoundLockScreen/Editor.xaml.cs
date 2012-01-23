@@ -26,5 +26,10 @@ namespace IfFoundLockScreen
 //            this.DataContext = App.Current.ViewModel;
             this.DataContext = ((App)(Application.Current)).ViewModel;
         }
+
+        private void ApplicationBarOKIconButton_Click(object sender, EventArgs e)
+        {
+            this.NavigationService.GoBack();
+        }
     }
 }

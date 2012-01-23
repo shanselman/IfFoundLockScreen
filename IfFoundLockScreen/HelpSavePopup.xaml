@@ -7,17 +7,22 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    d:DesignHeight="480" d:DesignWidth="480">
+    d:DesignHeight="448" d:DesignWidth="480">
     
-    <Grid Height="450" Width="480" x:Name="LayoutRoot" Background="#CC000000">
+    <Grid Height="448" Width="480" x:Name="LayoutRoot" 
+          Background="{StaticResource PhoneBackgroundBrush}" 
+          >
+        <StackPanel Margin="0,24,0,0" >
         <TextBlock x:Name="HelpSave" TextAlignment="Left" VerticalAlignment="Center"
                  TextWrapping="Wrap"
-                       Margin="24,0,24,0" Style="{StaticResource PhoneTextTitle3Style}" Tap="HelpSave_Tap">
+                       Margin="24,0,24,24" Style="{StaticResource PhoneTextTitle3Style}" Tap="HelpSave_Tap">
             When you tap this popup, I'll save a screenshot of the screen in your Saved Pictures album. That new screenshot will include your contact information exactly as you see it now on the screen.
             <LineBreak/>
             <LineBreak/>
             Go back to your phone's Home, open Settings, then Lock+Wallpaper and choose the new custom wallpaper as your Lock Screen and never lose your phone again!
         </TextBlock>
-
+            <Button x:Name="Lameo" Height="84" Margin="12,0,12,0" Click="Lameo_Click">Save</Button>
+        </StackPanel>
     </Grid>
+    
 </UserControl>
