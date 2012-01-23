@@ -16,6 +16,7 @@ namespace IfFoundLockScreen
 {
     public class RewardModel : INotifyPropertyChanged
     {
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public string Line1 { get; set; }
