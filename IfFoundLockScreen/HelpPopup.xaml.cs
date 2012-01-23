@@ -18,8 +18,14 @@ namespace IfFoundLockScreen
         public HelpPopup()
         {
             InitializeComponent();
+            this.Loaded += new RoutedEventHandler(HelpPopup_Loaded);
         }
 
+        void HelpPopup_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.LayoutRoot.Background.Opacity = 0.8;            
+        }
+        
         private void DayOfWeek_Tap(object sender, GestureEventArgs e)
         {
             Popup p = this.Parent as Popup;
@@ -27,6 +33,11 @@ namespace IfFoundLockScreen
                 p.IsOpen = false;
             //this.Visibility = System.Windows.Visibility.Collapsed;
 
+        }
+
+        private void Lameo_Click(object sender, RoutedEventArgs e)
+        {
+            DayOfWeek_Tap(sender, null);
         }
     }
 }

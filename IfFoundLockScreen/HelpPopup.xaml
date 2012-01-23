@@ -7,9 +7,13 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    d:DesignHeight="525" d:DesignWidth="480">
+    
+    d:DesignHeight="548" d:DesignWidth="480">
 
-    <Grid Height="525" Width="480" x:Name="LayoutRoot" Background="#CC000000" Tap="DayOfWeek_Tap">
+    <Grid Height="548" Width="480" x:Name="LayoutRoot" 
+          Tap="DayOfWeek_Tap"
+          Background="{StaticResource PhoneBackgroundBrush}" 
+          >
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
@@ -17,6 +21,7 @@
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition MaxHeight="96"/>
         </Grid.RowDefinitions>
         <TextBlock x:Name="DayOfWeek" TextAlignment="Left" VerticalAlignment="Center"
                  TextWrapping="Wrap" Grid.Row="0" Grid.Column="0"
@@ -33,6 +38,7 @@
             <LineBreak/>
             Then, set your new wallaper as your lockscreen from Windows Phone Settings.
         </TextBlock>
-        <Image Grid.Row="0" Grid.Column="1" Source="ApplicationIcon200x200.png" Width="200"/>
+        <Image Margin="12,24,24,0" Grid.Row="0" Grid.Column="1" Source="ApplicationIcon200x200.png" Width="200"/>
+        <Button Margin="12,0,12,12" Height="84" x:Name="Lameo" Grid.Row="2" Grid.ColumnSpan="2" Click="Lameo_Click"> Dismiss</Button>
     </Grid>
 </UserControl>

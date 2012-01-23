@@ -6,12 +6,12 @@ using System.Resources;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("IfFoundLockScreen")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Lost Phone Screen")]
+[assembly: AssemblyDescription("Stamps your contact information on to your phone's lock scrren wallpaper")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft IT")]
-[assembly: AssemblyProduct("IfFoundLockScreen")]
-[assembly: AssemblyCopyright("Copyright © Microsoft IT 2012")]
+[assembly: AssemblyCompany("Scott Hanselman")]
+[assembly: AssemblyProduct("Lost Phone Screen")]
+[assembly: AssemblyCopyright("Copyright © Scott Hanselman 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,6 +32,6 @@ using System.Resources;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.0.1.0")]
+[assembly: AssemblyFileVersion("1.0.1.0")]
 [assembly: NeutralResourcesLanguageAttribute("en-US")]
