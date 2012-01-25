@@ -70,6 +70,25 @@ namespace IfFoundLockScreen
             }
         }
 
+        protected override void OnBackKeyPress(CancelEventArgs e)
+        {
+            if (theHelpPopup != null && theHelpPopup.IsOpen == true)
+            {
+                theHelpPopup.IsOpen = false;
+                e.Cancel = true;
+            }
+
+            if (theSavePopup != null && theSavePopup.IsOpen == true)
+            {
+                backButtonPressedFlag = true;
+                theSavePopup.IsOpen = false;
+                e.Cancel = true;
+            }
+
+            base.OnBackKeyPress(e);
+        }
+
+        bool backButtonPressedFlag = false;
 
         void photoChooserTask_Completed(object sender, PhotoResult e)
         {
@@ -90,18 +109,68 @@ namespace IfFoundLockScreen
             MonthDay.Text = DateTime.Now.ToString("MMMM dd");
         }
 
+        private Popup theHelpPopup;
+        private Popup theSavePopup; 
+
         private void ApplicationBarHelpIconButton_Click(object sender, EventArgs e)
         {
+            PreparePopups(); //lazy setup
+
             this.ApplicationBar.IsVisible = false;
-            var p = new Popup();
-            p.Child = new HelpPopup();
-            p.VerticalOffset = 200;
-            p.HorizontalOffset = 0;
-            p.IsOpen = true;
-            p.Closed += (sender1, e1) =>
+            theHelpPopup.IsOpen = true;
+        }
+
+        private void PreparePopups()
+        {
+            if (theHelpPopup == null)
             {
-                this.ApplicationBar.IsVisible = true;
-            };
+                theHelpPopup = new Popup();
+                theHelpPopup.Child = new HelpPopup();
+                theHelpPopup.VerticalOffset = 200;
+                theHelpPopup.HorizontalOffset = 0;
+                theHelpPopup.Closed += (sender1, e1) =>
+                {
+                    this.ApplicationBar.IsVisible = true;
+                };
+            }
+            if (theSavePopup == null)
+            {
+                theSavePopup = new Popup();
+                theSavePopup.Child = new HelpSavePopup();
+                theSavePopup.VerticalOffset = 250;
+                theSavePopup.HorizontalOffset = 0;
+                theSavePopup.Closed += (sender1, e1) =>
+                {
+                    try
+                    {
+                        if (!backButtonPressedFlag)
+                        {
+                            var bitmap = new System.Windows.Media.Imaging.WriteableBitmap(this.LayoutRoot, null);
+                            using (var stream = new System.IO.MemoryStream())
+                            {
+                                System.Windows.Media.Imaging.Extensions.SaveJpeg(bitmap, stream,
+                                                bitmap.PixelWidth, bitmap.PixelHeight, 0, 100);
+                                stream.Position = 0;
+                                var mediaLib = new Microsoft.Xna.Framework.Media.MediaLibrary();
+                                var datetime = System.DateTime.Now;
+                                var filename =
+                                    System.String.Format("LockScreen-{0}-{1}-{2}-{3}-{4}",
+                                        datetime.Year % 100, datetime.Month, datetime.Day,
+                                        datetime.Hour, datetime.Minute);
+                                mediaLib.SavePicture(filename, stream);
+                            }
+                        }
+                        backButtonPressedFlag = false;
+                    }
+                    finally
+                    {
+                        CollapseTime(false);
+                        this.ProgressBar.IsIndeterminate = false;
+                        this.ProgressBar.Visibility = System.Windows.Visibility.Collapsed;
+                    }
+                };
+
+            }
         }
 
         private void LockTextPanel_Tap(object sender, Input.GestureEventArgs e)
@@ -122,7 +191,7 @@ namespace IfFoundLockScreen
                 photoChooserTask.PixelWidth = (int)System.Windows.Application.Current.Host.Content.ActualWidth;
                 photoChooserTask.Show();
             }
-            catch (System.InvalidOperationException ex)
+            catch (System.InvalidOperationException)
             {
                 MessageBox.Show("An error occurred.");
             }
@@ -130,49 +199,12 @@ namespace IfFoundLockScreen
 
         private void ApplicationBarSaveIconButton_Click(object sender, EventArgs e)
         {
-            //TODO: Popup an explanation about what will happen, and encourage them to go to the media library
-
-            // Create a popup. 
-            var p = new Popup();
-            p.Child = new HelpSavePopup();
-            p.VerticalOffset = 250;
-            p.HorizontalOffset = 0;
-
+            PreparePopups(); //lazy setup
             // Open the popup. 
             CollapseTime(true);
-
-
-            p.IsOpen = true;
+            theSavePopup.IsOpen = true;
             this.ProgressBar.IsIndeterminate = true;
             this.ProgressBar.Visibility = System.Windows.Visibility.Visible;
-            p.Closed += (sender1, e1) =>
-            {
-
-                try
-                {
-                    var bitmap = new System.Windows.Media.Imaging.WriteableBitmap(this.LayoutRoot, null);
-                    using (var stream = new System.IO.MemoryStream())
-                    {
-                        System.Windows.Media.Imaging.Extensions.SaveJpeg(bitmap, stream,
-                                        bitmap.PixelWidth, bitmap.PixelHeight, 0, 100);
-                        stream.Position = 0;
-                        var mediaLib = new Microsoft.Xna.Framework.Media.MediaLibrary();
-                        var datetime = System.DateTime.Now;
-                        var filename =
-                            System.String.Format("LockScreen-{0}-{1}-{2}-{3}-{4}",
-                                datetime.Year % 100, datetime.Month, datetime.Day,
-                                datetime.Hour, datetime.Minute);
-                        mediaLib.SavePicture(filename, stream);
-                    }
-
-                }
-                finally
-                {
-                    CollapseTime(false);
-                    this.ProgressBar.IsIndeterminate = false;
-                    this.ProgressBar.Visibility = System.Windows.Visibility.Collapsed;
-                }
-            };
         }
 
         private void CollapseTime(bool p)

@@ -31,8 +31,6 @@ namespace IfFoundLockScreen
             Popup p = this.Parent as Popup;
             if (p != null)
                 p.IsOpen = false;
-            //this.Visibility = System.Windows.Visibility.Collapsed;
-
         }
 
         private void Lameo_Click(object sender, RoutedEventArgs e)

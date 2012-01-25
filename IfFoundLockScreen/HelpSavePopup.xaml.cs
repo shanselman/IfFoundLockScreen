@@ -23,15 +23,16 @@ namespace IfFoundLockScreen
 
         void HelpSavePopup_Loaded(object sender, RoutedEventArgs e)
         {
-            this.LayoutRoot.Background.Opacity = 0.8;            
+            this.LayoutRoot.Background.Opacity = 0.8;
         }
 
         private void HelpSave_Tap(object sender, GestureEventArgs e)
         {
             Popup p = this.Parent as Popup;
             if (p != null)
+            {
                 p.IsOpen = false;
-            //this.Visibility = System.Windows.Visibility.Collapsed;
+            }
         }
 
         private void Lameo_Click(object sender, RoutedEventArgs e)
