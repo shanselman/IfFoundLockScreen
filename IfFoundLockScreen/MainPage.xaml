@@ -67,8 +67,6 @@
                        Margin="9,-20,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
-        <popup:HelpPopup x:Name="popupHelp" Height="340" Width="480" Visibility="Collapsed" />
-        <popup:HelpSavePopup x:Name="popupHelpSave" Height="340" Width="480" Visibility="Collapsed" />
         <toolkit:PerformanceProgressBar MaxHeight="16" x:Name="ProgressBar" IsIndeterminate="False" Visibility="Collapsed" Height="16" VerticalAlignment="Top"/>
     </Grid>
  

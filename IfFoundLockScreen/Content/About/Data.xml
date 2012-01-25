@@ -58,6 +58,7 @@
             Help visible on the light theme now. (Tip: don't hardcode colors!)
             Added OK button on Editor screen as the hardware back button isn't intuitive to all.
             Added buttons to the Help and Save popups although tapping anywhere works also.
+            Changed Back Button behavior so that Hardware Back dimisses Help and Save popups.
             
         </Item>
     </Items>
