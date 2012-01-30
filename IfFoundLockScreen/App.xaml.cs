@@ -78,18 +78,7 @@ namespace IfFoundLockScreen
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
-            // load the view model from isolated storage
-            using (var store = IsolatedStorageFile.GetUserStoreForApplication())
-            using (var stream = new IsolatedStorageFileStream("data.txt", FileMode.OpenOrCreate, FileAccess.Read, store))
-            using (var reader = new StreamReader(stream))
-            {
-                if (!reader.EndOfStream)
-                {
-                    var serializer = new XmlSerializer(typeof(RewardModel));
-                    ViewModel = (RewardModel)serializer.Deserialize(reader);
-                    
-                }
-            }
+            LoadData();
 
             // if the view model is not loaded, create a new one
             if (ViewModel == null)
@@ -102,15 +91,35 @@ namespace IfFoundLockScreen
             RootFrame.DataContext = ViewModel;
         }
 
+        public void LoadData()
+        {
+            // load the view model from isolated storage
+            using (var store = IsolatedStorageFile.GetUserStoreForApplication())
+            using (var stream = new IsolatedStorageFileStream("data.txt", FileMode.OpenOrCreate, FileAccess.Read, store))
+            using (var reader = new StreamReader(stream))
+            {
+                if (!reader.EndOfStream)
+                {
+                    var serializer = new XmlSerializer(typeof(RewardModel));
+                    ViewModel = (RewardModel)serializer.Deserialize(reader);
+
+                }
+            }
+        }
+
         // Code to execute when the application is activated (brought to foreground)
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
-            if (PhoneApplicationService.Current.State.ContainsKey(ModelKey))
-            {
-                ViewModel = PhoneApplicationService.Current.State[ModelKey] as RewardModel;
-                RootFrame.DataContext = ViewModel;
-            }
+            //if (PhoneApplicationService.Current.State.ContainsKey(ModelKey))
+            //{
+            //    ViewModel = PhoneApplicationService.Current.State[ModelKey] as RewardModel;
+            //    RootFrame.DataContext = ViewModel;
+            //}
+            LoadData();
+            // set the frame DataContext
+            RootFrame.DataContext = ViewModel;
+
 
         }
 
@@ -120,12 +129,18 @@ namespace IfFoundLockScreen
         // This code will not execute when the application is closing
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
-            PhoneApplicationService.Current.State[ModelKey] = ViewModel;
+            //PhoneApplicationService.Current.State[ModelKey] = ViewModel;
+            SaveData();
         }
 
         // Code to execute when the application is closing (eg, user hit Back)
         // This code will not execute when the application is deactivated
         private void Application_Closing(object sender, ClosingEventArgs e)
+        {
+            SaveData();
+        }
+
+        public void SaveData()
         {
             // persist the data using isolated storage
             using (var store = IsolatedStorageFile.GetUserStoreForApplication())

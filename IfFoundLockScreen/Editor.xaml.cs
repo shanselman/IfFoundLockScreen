@@ -29,6 +29,7 @@ namespace IfFoundLockScreen
 
         private void ApplicationBarOKIconButton_Click(object sender, EventArgs e)
         {
+            ((App)(Application.Current)).SaveData();
             this.NavigationService.GoBack();
         }
     }

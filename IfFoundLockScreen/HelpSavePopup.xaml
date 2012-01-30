@@ -10,8 +10,7 @@
     d:DesignHeight="448" d:DesignWidth="480">
     
     <Grid Height="448" Width="480" x:Name="LayoutRoot" 
-          Background="{StaticResource PhoneBackgroundBrush}" 
-          >
+          Background="{StaticResource PhoneBackgroundBrush}" Opacity="0.8"            >
         <StackPanel Margin="0,24,0,0" >
         <TextBlock x:Name="HelpSave" TextAlignment="Left" VerticalAlignment="Center"
                  TextWrapping="Wrap"
