@@ -36,7 +36,7 @@
             This app does that. It "stamps" details on your wallpaper of choice. 
             <LineBreak/>
             <LineBreak/>
-            Then, set your new wallaper as your lockscreen from Windows Phone Settings.
+            Then, set your new wallpaper as your lockscreen from Windows Phone Settings.
         </TextBlock>
         <Image Margin="12,24,24,0" Grid.Row="0" Grid.Column="1" Source="ApplicationIcon200x200.png" Width="200"/>
         <Button Margin="12,0,12,12" Height="84" x:Name="Lameo" Grid.Row="2" Grid.ColumnSpan="2" Click="Lameo_Click"> Dismiss</Button>

@@ -23,6 +23,7 @@ namespace IfFoundLockScreen
         public string Line2 { get; set; }
         public string Line3 { get; set; }
         public bool SeenHelpOnce { get; set; }
+        public bool InvertedText { get; set; }
 
         public void Update()
         {
