@@ -142,6 +142,7 @@
     <Content Include="Images\appbar.questionmark.rest.png" />
     <Content Include="Images\appbar.theme.inverse.png" />
     <Content Include="Images\appbar.theme.normal.png" />
+    <Content Include="Images\initialwallpaper.jpg" />
     <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
   <ItemGroup />
