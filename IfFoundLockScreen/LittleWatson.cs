@@ -86,7 +86,7 @@ namespace IfFoundLockScreen
             {
                 store.DeleteFile(filename);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }

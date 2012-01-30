@@ -60,6 +60,12 @@
             Added buttons to the Help and Save popups although tapping anywhere works also.
             Changed Back Button behavior so that Hardware Back dimisses Help and Save popups.
             
+            1.0.2.0
+            Removed progress bar as the app is fast enough without it.
+            Added option to manually switch colors so that folks with the white theme and a dark pic can have more control.
+            Fixed *ahem* a misspelling.
+            
+            
         </Item>
     </Items>
 </About>

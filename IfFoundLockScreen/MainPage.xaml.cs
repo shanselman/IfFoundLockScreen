@@ -18,6 +18,7 @@ using System.Windows.Media.Imaging;
 using System.IO;
 using Microsoft.Xna.Framework.Media;
 using System.Windows.Controls.Primitives;
+using Microsoft.Phone.Shell;
 
 namespace IfFoundLockScreen
 {
@@ -55,6 +56,8 @@ namespace IfFoundLockScreen
                 ApplicationBarHelpIconButton_Click(this, null);
                 ((App)App.Current).ViewModel.SeenHelpOnce = true;
             }
+
+            UpdateInvertStatus();
 
             BitmapImage bmp = ((App)App.Current).LoadCustomBackground();
             if (bmp != null)
@@ -165,8 +168,6 @@ namespace IfFoundLockScreen
                     finally
                     {
                         CollapseTime(false);
-                        this.ProgressBar.IsIndeterminate = false;
-                        this.ProgressBar.Visibility = System.Windows.Visibility.Collapsed;
                     }
                 };
 
@@ -203,8 +204,6 @@ namespace IfFoundLockScreen
             // Open the popup. 
             CollapseTime(true);
             theSavePopup.IsOpen = true;
-            this.ProgressBar.IsIndeterminate = true;
-            this.ProgressBar.Visibility = System.Windows.Visibility.Visible;
         }
 
         private void CollapseTime(bool p)
@@ -221,6 +220,47 @@ namespace IfFoundLockScreen
                 this.ApplicationBar.IsVisible = true;
                 this.TimePanel.Visibility = System.Windows.Visibility.Visible;
             }
+        }
+
+        private bool LightTheme
+        {
+            get {
+                Visibility v = (Visibility)Resources["PhoneLightThemeVisibility"];
+                return v == System.Windows.Visibility.Visible;
+            }        
+        }
+
+        private void ApplicationBarThemeIconButton_Click(object sender, EventArgs e)
+        {
+            ((App)App.Current).ViewModel.InvertedText = !((App)App.Current).ViewModel.InvertedText;
+            UpdateInvertStatus();
+        }
+
+        private void UpdateInvertStatus()
+        {
+            ApplicationBarIconButton foo = ApplicationBar.Buttons[3] as ApplicationBarIconButton;
+            if (((App)App.Current).ViewModel.InvertedText)
+            {
+                foo.IconUri = new Uri("Images\\appbar.theme.inverse.png", UriKind.Relative);
+            }
+            else
+            {
+                foo.IconUri = new Uri("Images\\appbar.theme.normal.png", UriKind.Relative);
+            }
+
+            Style foundLineStyle;
+            if (((App)App.Current).ViewModel.InvertedText)
+            {
+                foundLineStyle = (Style)Application.Current.Resources["BolderPhoneTextTitleContrast"];
+            }
+            else
+            {
+                foundLineStyle = (Style)Application.Current.Resources["BolderPhoneTextTitle"];
+            }
+            FoundLine1.Style = foundLineStyle;
+            FoundLine2.Style = foundLineStyle;
+            FoundLine3.Style = foundLineStyle;
+
         }
 
         private void ApplicationBarAboutMenuItem_Click(object sender, EventArgs e)

@@ -9,7 +9,13 @@
     <Application.Resources>
         <Style x:Key="BolderPhoneTextTitle" BasedOn="{StaticResource PhoneTextTitle2Style}" TargetType="TextBlock">
             <Setter Property="FontSize" Value="36"/>
+            <Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
         </Style>
+        <Style x:Key="BolderPhoneTextTitleContrast" BasedOn="{StaticResource PhoneTextTitle2Style}" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="36"/>
+            <Setter Property="Foreground" Value="{StaticResource PhoneContrastForegroundBrush}"/>
+        </Style>
+
     </Application.Resources>
 
     <Application.ApplicationLifetimeObjects>

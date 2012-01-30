@@ -55,7 +55,7 @@
             <TextBlock x:Name="FoundLine2" Text="{Binding Line2}"  
                        Margin="9,-7,0,0" Style="{StaticResource BolderPhoneTextTitle}"/>
             <TextBlock x:Name="FoundLine3" Text="{Binding Line3}" 
-                       Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle2Style}"/>
+                       Margin="9,-7,0,0" Style="{StaticResource BolderPhoneTextTitle}"/>
         </StackPanel>
 
         <StackPanel x:Name="TimePanel" Grid.Row="1" Margin="12,140,0,0" > <!-- L, T, R, B -->
@@ -67,7 +67,6 @@
                        Margin="9,-20,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
-        <toolkit:PerformanceProgressBar MaxHeight="16" x:Name="ProgressBar" IsIndeterminate="False" Visibility="Collapsed" Height="16" VerticalAlignment="Top"/>
     </Grid>
  
     <!--Sample code showing usage of ApplicationBar-->
@@ -79,9 +78,12 @@
                 IconUri="/Images/appbar.feature.camera.rest.png" Text="Choose" Click="ApplicationBarPhotoIconButton_Click"/>
             <shell:ApplicationBarIconButton 
                 IconUri="/Images/appbar.save.rest.png" Text="Save" Click="ApplicationBarSaveIconButton_Click"/>
+            <!--<shell:ApplicationBarIconButton 
+                IconUri="/Images/appbar.questionmark.rest.png" Text="Help" Click="ApplicationBarHelpIconButton_Click"/>-->
             <shell:ApplicationBarIconButton 
-                IconUri="/Images/appbar.questionmark.rest.png" Text="Help" Click="ApplicationBarHelpIconButton_Click"/>
+                IconUri="/Images/appbar.theme.normal.png" Text="Reverse" Click="ApplicationBarThemeIconButton_Click"/>
             <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="Help" Click="ApplicationBarHelpIconButton_Click" />
                 <shell:ApplicationBarMenuItem Text="About Lost Phone Screen" Click="ApplicationBarAboutMenuItem_Click" />
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
