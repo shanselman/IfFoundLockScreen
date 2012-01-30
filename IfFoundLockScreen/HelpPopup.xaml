@@ -26,7 +26,7 @@
         <TextBlock x:Name="DayOfWeek" TextAlignment="Left" VerticalAlignment="Center"
                  TextWrapping="Wrap" Grid.Row="0" Grid.Column="0"
                        Margin="24,0,24,0" Style="{StaticResource PhoneTextTitle3Style}" >
-            If your phone is locked, what's the easiest way to find it? Remotely activate the GPS? 
+            If your phone is lost, what's the easiest way to find it? Remotely activate the GPS? 
         </TextBlock>
         <TextBlock x:Name="DayOfWeek2" TextAlignment="Left" VerticalAlignment="Center"
                  TextWrapping="Wrap" Grid.Row="1" Grid.ColumnSpan="2"
