@@ -62,7 +62,7 @@
             
             1.0.2.0
             Removed progress bar as the app is fast enough without it.
-            Added option to manually switch colors so that folks with the white theme and a dark pic can have more control.
+            Added option to invert colors so that folks with the white theme and a dark pic can have more control.
             Fixed *ahem* a misspelling.
             
             
