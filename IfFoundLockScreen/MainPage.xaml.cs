@@ -55,6 +55,7 @@ namespace IfFoundLockScreen
             {
                 ApplicationBarHelpIconButton_Click(this, null);
                 ((App)App.Current).ViewModel.SeenHelpOnce = true;
+                ((App)App.Current).SaveData();
             }
 
             UpdateInvertStatus();
@@ -260,6 +261,7 @@ namespace IfFoundLockScreen
             FoundLine1.Style = foundLineStyle;
             FoundLine2.Style = foundLineStyle;
             FoundLine3.Style = foundLineStyle;
+            FoundLine4.Style = foundLineStyle;
 
         }
 

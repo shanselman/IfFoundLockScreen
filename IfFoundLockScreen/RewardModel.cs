@@ -22,6 +22,7 @@ namespace IfFoundLockScreen
         public string Line1 { get; set; }
         public string Line2 { get; set; }
         public string Line3 { get; set; }
+        public string Line4 { get; set; }
         public bool SeenHelpOnce { get; set; }
         public bool InvertedText { get; set; }
 
@@ -31,6 +32,7 @@ namespace IfFoundLockScreen
             Line1 = "Reward if found";
             Line2 = "email@yourdomain.com";
             Line3 = "+1.503.555.1212";
+            Line4 = "";
         }
     }
 }

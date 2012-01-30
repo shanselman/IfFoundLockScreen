@@ -57,6 +57,8 @@
                 <TextBox x:Name="Line2Text" Text="{Binding Line2, Mode=TwoWay}" MaxLength="64" />
                 <TextBlock x:Name="Line3" Text="Line 3" Margin="9,-7,0,0" Style="{StaticResource PhoneTextSmallStyle}"/>
                 <TextBox x:Name="Line3Text" Text="{Binding Line3, Mode=TwoWay}" MaxLength="64" />
+                <TextBlock x:Name="Line4" Text="Line 4" Margin="9,-7,0,0" Style="{StaticResource PhoneTextSmallStyle}"/>
+                <TextBox x:Name="Line4Text" Text="{Binding Line4, Mode=TwoWay}" MaxLength="64" />
             </StackPanel>
 
 
