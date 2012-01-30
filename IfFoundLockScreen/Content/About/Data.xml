@@ -67,7 +67,9 @@
             Removed progress bar as the app is fast enough without it.
             Added option to invert colors so that folks with the white theme and a dark pic can have more control.
             Fixed *ahem* a misspelling.
-            Fixed initial wallpaper
+            Better initial wallpaper
+            Fixed data persistance bug on Mango task switching
+            Added fourth optional line for more data
             
             
         </Item>
