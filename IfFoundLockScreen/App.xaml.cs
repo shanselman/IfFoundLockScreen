@@ -180,8 +180,6 @@ namespace IfFoundLockScreen
 
         public BitmapImage LoadCustomBackground()
         {
-            
-
             using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
             {
                 if(myIsolatedStorage.FileExists("custombackground.jpg"))
@@ -191,6 +189,7 @@ namespace IfFoundLockScreen
                         if (fileStream != null)
                         {
                             BitmapImage bi = new BitmapImage();
+                            bi.CreateOptions = BitmapCreateOptions.BackgroundCreation; //TODO confirm this is cool
                             bi.SetSource(fileStream);
                             return bi;
                         }
@@ -200,7 +199,7 @@ namespace IfFoundLockScreen
             return null;
         }
 
-        public void SaveCustomBackground(BitmapImage bmp)
+        public void SaveCustomBackground(WriteableBitmap wb)
         {
             String tempJPEG = "custombackground.jpg";
             // Create virtual store and file stream. Check for duplicate tempJPEG files.
@@ -211,22 +210,19 @@ namespace IfFoundLockScreen
                     myIsolatedStorage.DeleteFile(tempJPEG);
                 }
 
-                IsolatedStorageFileStream fileStream = myIsolatedStorage.CreateFile(tempJPEG);
+                using (IsolatedStorageFileStream fileStream = myIsolatedStorage.CreateFile(tempJPEG))
+                {
 
-                StreamResourceInfo sri = null;
-                Uri uri = new Uri(tempJPEG, UriKind.Relative);
-                sri = Application.GetResourceStream(uri);
-
-                //BitmapImage bitmap = new BitmapImage();
-                //bitmap.SetSource(sri.Stream);
-                WriteableBitmap wb = new WriteableBitmap(bmp);
-
-                // Encode WriteableBitmap object to a JPEG stream.
-                Extensions.SaveJpeg(wb, fileStream, wb.PixelWidth, wb.PixelHeight, 0, 85);
-
-                //wb.SaveJpeg(fileStream, wb.PixelWidth, wb.PixelHeight, 0, 85);
-                fileStream.Close();
+                    // Encode WriteableBitmap object to a JPEG stream.
+                    Extensions.SaveJpeg(wb, fileStream, wb.PixelWidth, wb.PixelHeight, 0, 100);
+                }
             }
+        }
+
+        public void SaveCustomBackground(BitmapImage bmp)
+        {
+            WriteableBitmap wb = new WriteableBitmap(bmp);
+            SaveCustomBackground(wb);
         }
 
 

@@ -1,0 +1,65 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="IfFoundLockScreen.Crop"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:Controls="clr-namespace:Coding4Fun.Phone.Controls;assembly=Coding4Fun.Phone.Controls"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d" d:DesignHeight="696" d:DesignWidth="480"
+    shell:SystemTray.IsVisible="True">
+
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <!-- L, T, R, B -->
+        <!--ContentPanel - place additional content here-->
+        <StackPanel x:Name="ContentPanel"  Margin="0,0,0,0">
+            <Canvas x:Name="canvas" Width="480" Height="800">
+                <!--<Canvas.Clip>
+                    <RectangleGeometry Rect="60,60,360,600"/>
+                </Canvas.Clip>-->
+                    
+                <!--Image for the WriteableBitmap object destined for cropping.-->
+                <Image x:Name="ImageToCrop" Height="800" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,0"
+                       Source="Images/Desert.jpg" CacheMode="BitmapCache" RenderTransformOrigin="0,0">
+                    <toolkit:GestureService.GestureListener>
+                        <toolkit:GestureListener DragDelta="OnDragDelta" 
+                                                 PinchStarted="OnPinchStarted"
+                                                 PinchDelta="OnPinchDelta"
+                                                 DoubleTap="OnDoubleTap"/>
+                    </toolkit:GestureService.GestureListener>
+                    <Image.RenderTransform>
+                        <CompositeTransform ScaleX="1" ScaleY="1"
+                                        TranslateX="0" TranslateY="0"/>
+                    </Image.RenderTransform>
+                </Image>
+
+                <Border x:Name="TopDimBorder" Height="60" Background="Black" BorderBrush="Transparent" BorderThickness="0"  Opacity="0.6" Width="480"  Margin="0,0,0,0"/>
+                <Border x:Name="BottomDimBorder" Height="100" Background="Black" BorderBrush="Transparent" BorderThickness="0"  Opacity="0.6" Width="480"  Margin="0,660,0,0"/>
+                <toolkit:WrapPanel>
+                    <Border x:Name="LeftDimBorder" Background="Black" BorderBrush="Transparent" BorderThickness="0"  Opacity="0.6" Width="60" Height="600"  Margin="0,60,0,0"/>
+                    <Rectangle x:Name="CropBorder" Stroke="White" Opacity="1" Width="360" Height="600"  Margin="0,60,0,0"/>
+                    <Border x:Name="RightDimBorder" Background="Black" BorderBrush="Transparent" BorderThickness="0"  Opacity="0.6" Width="60" Height="600"  Margin="0,60,0,0"/>
+                </toolkit:WrapPanel>
+            </Canvas>
+        </StackPanel>
+    </Grid>
+ 
+    <!--Sample code showing usage of ApplicationBar-->
+    <phone:PhoneApplicationPage.ApplicationBar  >
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="Black">
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar.check.rest.png" Text="Crop" Click="ApplicationBarIconButton_Click"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+</phone:PhoneApplicationPage>
