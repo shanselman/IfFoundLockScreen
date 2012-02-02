@@ -18,6 +18,7 @@ namespace IfFoundLockScreen
         public Editor()
         {
             InitializeComponent();
+            this.DataContext = this;
         }
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)

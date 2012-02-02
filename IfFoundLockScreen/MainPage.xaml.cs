@@ -19,6 +19,7 @@ using System.IO;
 using Microsoft.Xna.Framework.Media;
 using System.Windows.Controls.Primitives;
 using Microsoft.Phone.Shell;
+using Coding4Fun.Phone.Controls;
 
 namespace IfFoundLockScreen
 {
@@ -162,6 +163,13 @@ namespace IfFoundLockScreen
                                         datetime.Year % 100, datetime.Month, datetime.Day,
                                         datetime.Hour, datetime.Minute);
                                 mediaLib.SavePicture(filename, stream);
+                                
+                                var toast = new ToastPrompt
+                                {
+                                    Title = "",
+                                    Message = @"Your wallpaper has been saved in ""Saved Pictures"""
+                                };
+                                toast.Show();   
                             }
                         }
                         backButtonPressedFlag = false;
@@ -169,6 +177,7 @@ namespace IfFoundLockScreen
                     finally
                     {
                         CollapseTime(false);
+
                     }
                 };
 
