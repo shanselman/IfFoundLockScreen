@@ -25,6 +25,7 @@ namespace IfFoundLockScreen
         public string Line4 { get; set; }
         public bool SeenHelpOnce { get; set; }
         public bool InvertedText { get; set; }
+        public bool? MakeRoomforMedia { get; set; }
 
         public void Update()
         {

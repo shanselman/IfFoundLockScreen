@@ -12,7 +12,8 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d" d:DesignHeight="696" d:DesignWidth="480"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True"
+    toolkit:TiltEffect.IsTiltEnabled="True">
 
     <toolkit:TransitionService.NavigationInTransition>
         <toolkit:NavigationInTransition>
@@ -59,6 +60,8 @@
                 <TextBox x:Name="Line3Text" Text="{Binding Line3, Mode=TwoWay}" MaxLength="64" />
                 <TextBlock x:Name="Line4" Text="Line 4" Margin="9,-7,0,0" Style="{StaticResource PhoneTextSmallStyle}"/>
                 <TextBox x:Name="Line4Text" Text="{Binding Line4, Mode=TwoWay}" MaxLength="64" />
+                <toolkit:ToggleSwitch x:Name="RoomForMediaSwitch" Header="Extra room for media playing" 
+                                      IsChecked="{Binding MakeRoomPooForMedia, Mode=TwoWay}" /> 
             </StackPanel>
 
 
