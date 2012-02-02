@@ -25,7 +25,7 @@ namespace IfFoundLockScreen
         public string Line4 { get; set; }
         public bool SeenHelpOnce { get; set; }
         public bool InvertedText { get; set; }
-        public bool? MakeRoomforMedia { get; set; }
+        public bool MakeRoomforMedia { get; set; }
 
         public void Update()
         {
@@ -34,6 +34,7 @@ namespace IfFoundLockScreen
             Line2 = "email@yourdomain.com";
             Line3 = "+1.503.555.1212";
             Line4 = "";
+            MakeRoomforMedia = false;
         }
     }
 }

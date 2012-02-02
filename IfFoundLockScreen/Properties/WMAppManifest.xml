@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.1">
-  <App xmlns="" ProductID="{4244b6cd-77a3-40e4-94d4-e32ead41dc81}" Title="Lost Phone Screen" RuntimeType="Silverlight" Version="1.0.2.0" Genre="apps.normal" Author="Scott Hanselman" Description="Lost Phone Lock Screen" Publisher="Scott Hanselman">
-    <IconPath IsRelative="true" IsResource="false">ApplicationIcon62x62.png</IconPath>
-    <Capabilities>
-      <!--<Capability Name="ID_CAP_GAMERSERVICES" />
+    <App xmlns="" ProductID="{4244b6cd-77a3-40e4-94d4-e32ead41dc81}" Title="Lost Phone Screen" RuntimeType="Silverlight" Version="1.0.2.0" Genre="apps.normal" Author="Scott Hanselman" Description="Lost Phone Lock Screen" Publisher="Scott Hanselman">
+        <IconPath IsRelative="true" IsResource="false">ApplicationIcon62x62.png</IconPath>
+        <Capabilities>
+            <!--<Capability Name="ID_CAP_GAMERSERVICES" />
       <Capability Name="ID_CAP_IDENTITY_DEVICE" />
       <Capability Name="ID_CAP_IDENTITY_USER" />
       <Capability Name="ID_CAP_LOCATION" />-->
-      <Capability Name="ID_CAP_MEDIALIB" />
-      <!--<Capability Name="ID_CAP_MICROPHONE" />
+            <Capability Name="ID_CAP_MEDIALIB" />
+            <!--<Capability Name="ID_CAP_MICROPHONE" />
       <Capability Name="ID_CAP_NETWORKING" />
       <Capability Name="ID_CAP_PHONEDIALER" />
       <Capability Name="ID_CAP_PUSH_NOTIFICATION" />
@@ -17,18 +17,22 @@
       <Capability Name="ID_CAP_ISV_CAMERA" />
       <Capability Name="ID_CAP_CONTACTS" />
       <Capability Name="ID_CAP_APPOINTMENTS" />-->
-    </Capabilities>
-    <Tasks>
-      <DefaultTask Name="_default" NavigationPage="MainPage.xaml" />
-    </Tasks>
-    <Tokens>
-      <PrimaryToken TokenID="IfFoundLockScreenToken" TaskName="_default">
-        <TemplateType5>
-          <BackgroundImageURI IsRelative="true" IsResource="false">ApplicationIcon173x173.png</BackgroundImageURI>
-          <Count>0</Count>
-          <Title>Lost Phone Screen</Title>
-        </TemplateType5>
-      </PrimaryToken>
-    </Tokens>
-  </App>
+        </Capabilities>
+        <Tasks>
+            <DefaultTask Name="_default" NavigationPage="MainPage.xaml" />
+        </Tasks>
+        <Tokens>
+            <PrimaryToken TokenID="IfFoundLockScreenToken" TaskName="_default">
+                <TemplateType5>
+                    <BackgroundImageURI IsRelative="true" IsResource="false">ApplicationIcon173x173.png</BackgroundImageURI>
+                    <Count>0</Count>
+                    <Title>Lost Phone Screen</Title>
+                </TemplateType5>
+            </PrimaryToken>
+        </Tokens>
+        <Extensions>
+            <Extension ExtensionName="Photos_Extra_Hub" ConsumerID="{5B04B775-356B-4AA0-AAF8-6491FFEA5632}" TaskID="_default" />
+            <Extension ExtensionName="Photos_Extra_Viewer" ConsumerID="{5B04B775-356B-4AA0-AAF8-6491FFEA5632}" TaskID="_default" />
+        </Extensions>
+    </App>
 </Deployment>
