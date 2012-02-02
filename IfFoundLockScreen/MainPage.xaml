@@ -7,8 +7,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:popup="clr-namespace:IfFoundLockScreen"
-    xmlns:myapp="clr-namespace:IfFoundLockScreen"
+    xmlns:local="clr-namespace:IfFoundLockScreen"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:Controls="clr-namespace:Coding4Fun.Phone.Controls;assembly=Coding4Fun.Phone.Controls"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="728"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -17,7 +18,7 @@
     shell:SystemTray.IsVisible="False">
 
     <phone:PhoneApplicationPage.Resources>
-        <myapp:BooleanToMarginConverter x:Key="BooleanToMarginConverter" />
+        <local:BooleanToVisibilityConverter x:Key="mediaFrame" IsReversed="True"  />
     </phone:PhoneApplicationPage.Resources>
     
     <toolkit:TransitionService.NavigationInTransition>
@@ -44,21 +45,35 @@
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="350"/> <!-- the time is hard coded -->
         </Grid.RowDefinitions>
 
-        <Grid Width="480" Height="800" Grid.RowSpan="2">
+        <Grid Width="480" Height="800" Grid.RowSpan="3">
             <Image x:Name="CustomBackground" Margin="0,0,0,0"/>
             <Border x:Name="DimBorder" Background="Black" Opacity="0.2"/>
         </Grid>
 
-        <!-- 200  32 -->
-        <StackPanel x:Name="LockTextPanel" Grid.Row="0" Tap="LockTextPanel_Tap"
-                    Margin="{Binding MakeRoomForMedia,Converter={StaticResource BooleanToMarginConverter}}"
-                    >
-            <!--<TextBlock x:Name="ApplicationTitle" Text="lost phone lock screen" Style="{StaticResource PhoneTextContrastStyle}" Visibility="Collapsed"/>-->
-            <TextBlock x:Name="FoundLine1" Text="{Binding Line1}" 
+        <!--<StackPanel x:Name="MediaPanel" Margin="12,0,0,128" 
+                    Visibility="{Binding MakeRoomForMedia, Converter={StaticResource mediaFrame}, Mode=OneWay}">-->
+        <StackPanel x:Name="MediaPanel" Margin="12,0,0,12" Visibility="Visible" Height="150">
+            <StackPanel x:Name="MediaPanelInternal"  Visibility="Visible">
+            <toolkit:WrapPanel Margin="0,24,0,0">
+                <Controls:RoundButton Margin="0,0,36,0" ImageSource="/Images/appbar.transport.rew.rest.png"/>
+                <Controls:RoundButton Margin="0,0,36,0" ImageSource="/Images/appbar.transport.pause.rest.png"/>
+                <Controls:RoundButton Margin="0,0,36,0" ImageSource="/Images/appbar.transport.ff.rest.png"/>
+            </toolkit:WrapPanel>
+            <TextBlock x:Name="FakeArtistText" Text="Your Favorite Artist" 
+                       Style="{StaticResource BoldPhoneTextMediaStyle}"/>
+            <TextBlock x:Name="FakeSongText" Text="Your Favorite Song" 
+                       Style="{StaticResource PhoneTextMediaStyle}"/>
+            </StackPanel>
+        </StackPanel>
+        
+        <StackPanel x:Name="LockTextPanel" Grid.Row="1" Tap="LockTextPanel_Tap" Margin="12,32,0,0"> <!-- L, T, R, B -->
+
+            <TextBlock x:Name="FoundLine1" Text="tst}" 
                        Margin="9,0,0,0" Style="{StaticResource BolderPhoneTextTitle}"/>
             <TextBlock x:Name="FoundLine2" Text="{Binding Line2}"  
                        Margin="9,-7,0,0" Style="{StaticResource BolderPhoneTextTitle}"/>
@@ -68,7 +83,7 @@
                        Margin="9,-7,0,0" Style="{StaticResource BolderPhoneTextTitle}"/>
         </StackPanel>
 
-        <StackPanel x:Name="TimePanel" Grid.Row="1" Margin="12,0,0,0" > <!-- L, T, R, B -->
+        <StackPanel x:Name="TimePanel" Grid.Row="2" Margin="12,0,0,0" > <!-- L, T, R, B -->
              <TextBlock x:Name="Time" Text="12:14" 
                        Margin="9,0,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
             <TextBlock x:Name="DayOfWeek" Text="Friday" 
@@ -79,7 +94,6 @@
 
     </Grid>
  
-    <!--Sample code showing usage of ApplicationBar-->
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
             <shell:ApplicationBarIconButton 
@@ -88,8 +102,6 @@
                 IconUri="/Images/appbar.feature.camera.rest.png" Text="Choose" Click="ApplicationBarPhotoIconButton_Click"/>
             <shell:ApplicationBarIconButton 
                 IconUri="/Images/appbar.save.rest.png" Text="Save" Click="ApplicationBarSaveIconButton_Click"/>
-            <!--<shell:ApplicationBarIconButton 
-                IconUri="/Images/appbar.questionmark.rest.png" Text="Help" Click="ApplicationBarHelpIconButton_Click"/>-->
             <shell:ApplicationBarIconButton 
                 IconUri="/Images/appbar.theme.normal.png" Text="Reverse" Click="ApplicationBarThemeIconButton_Click"/>
             <shell:ApplicationBar.MenuItems>

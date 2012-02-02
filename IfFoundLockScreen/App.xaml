@@ -11,6 +11,13 @@
             <Setter Property="FontSize" Value="36"/>
             <Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
         </Style>
+        <Style x:Key="BoldPhoneTextMediaStyle" BasedOn="{StaticResource PhoneTextNormalStyle}" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        <Style x:Key="PhoneTextMediaStyle" BasedOn="{StaticResource PhoneTextNormalStyle}" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="24"/>
+        </Style>
         <Style x:Key="BolderPhoneTextTitleContrast" BasedOn="{StaticResource PhoneTextTitle2Style}" TargetType="TextBlock">
             <Setter Property="FontSize" Value="36"/>
             <Setter Property="Foreground" Value="{StaticResource PhoneContrastForegroundBrush}"/>

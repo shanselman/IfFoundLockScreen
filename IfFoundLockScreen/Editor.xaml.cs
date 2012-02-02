@@ -35,7 +35,7 @@ namespace IfFoundLockScreen
         {
             RewardModel vm = ((App)(Application.Current)).ViewModel as RewardModel;
             //Work around Silverlight Toolkit Bug for ToggleSwitch
-            vm.MakeRoomforMedia = this.RoomForMediaSwitch.IsChecked;
+            vm.MakeRoomforMedia = this.RoomForMediaSwitch.IsChecked.HasValue ? (bool)this.RoomForMediaSwitch.IsChecked : false;
 
             ((App)(Application.Current)).SaveData();
             this.NavigationService.GoBack();

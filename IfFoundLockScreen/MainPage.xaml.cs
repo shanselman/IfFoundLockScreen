@@ -84,7 +84,36 @@ namespace IfFoundLockScreen
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
-            //new Thickness(0, 0,  ? 200 : 32, 0);
+            // Get a dictionary of query string keys and values.
+            IDictionary<string, string> queryStrings = this.NavigationContext.QueryString;
+
+            // Ensure that there is at least one key in the query string, and check whether the "token" key is present.
+            if (queryStrings.ContainsKey("token"))
+            {
+                //Did we get deep linked to?
+
+                // Retrieve the picture from the media library using the token passed to the application.
+                MediaLibrary library = new MediaLibrary();
+                Picture picture = library.GetPictureFromToken(queryStrings["token"]);
+                
+                // Create a WriteableBitmap object and add it to the Image control Source property.
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.CreateOptions = BitmapCreateOptions.None;
+                bitmap.SetSource(picture.GetImage());
+                
+                this.CustomBackground.Source = bitmap;
+                ((App)App.Current).SaveCustomBackground(bitmap);
+            }
+
+            //TODO: Understand why this didn't just work with a convertor?
+            if (ViewModel.MakeRoomforMedia == false)
+            {
+                this.MediaPanel.Visibility = System.Windows.Visibility.Collapsed;
+            }
+            else
+            {
+                this.MediaPanel.Visibility = System.Windows.Visibility.Visible;
+            }
             base.OnNavigatedTo(e);
         }
 
@@ -179,8 +208,8 @@ namespace IfFoundLockScreen
                                 
                                 var toast = new ToastPrompt
                                 {
-                                    Title = "",
-                                    Message = @"Your wallpaper has been saved in ""Saved Pictures"""
+                                    Title = "Saved",
+                                    Message = @"Your wallpaper is in ""Saved Pictures"""
                                 };
                                 toast.Show();   
                             }
@@ -234,12 +263,14 @@ namespace IfFoundLockScreen
             if (p)
             {
                 this.DimBorder.Visibility = System.Windows.Visibility.Collapsed;
+                this.MediaPanelInternal.Visibility = System.Windows.Visibility.Collapsed;
                 this.ApplicationBar.IsVisible = false;
                 this.TimePanel.Visibility = System.Windows.Visibility.Collapsed;
             }
             else
             {
                 this.DimBorder.Visibility = System.Windows.Visibility.Visible;
+                this.MediaPanelInternal.Visibility = System.Windows.Visibility.Visible;
                 this.ApplicationBar.IsVisible = true;
                 this.TimePanel.Visibility = System.Windows.Visibility.Visible;
             }
@@ -293,32 +324,25 @@ namespace IfFoundLockScreen
         }
     }
 
-    
-    /// <summary>
-    /// A type converter for visibility and boolean values.
-    /// </summary>
-    public class BooleanToMarginConverter : IValueConverter
+    public sealed class BooleanToVisibilityConverter : IValueConverter
     {
-        public object Convert(
-            object value,
-            Type targetType,
-            object parameter,
-            CultureInfo culture)
+        public bool IsReversed { get; set; }
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            bool myBool = (bool)value;
-            return new Thickness(0, 0, myBool ? 200 : 32, 0);
+            var val = System.Convert.ToBoolean(value, CultureInfo.InvariantCulture);
+            if (this.IsReversed)    
+            {
+                val = !val;
+            }
+            if (val)
+            {
+                return Visibility.Visible;
+            }
+            return Visibility.Collapsed;
         }
- 
-        public object ConvertBack(
-            object value,
-            Type targetType,
-            object parameter,
-            CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return null;
-            //Visibility visibility = (Visibility)value;
-            //return (visibility == Visibility.Visible);
+            throw new NotImplementedException();
         }
     }
-
 }
