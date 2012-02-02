@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:popup="clr-namespace:IfFoundLockScreen"
+    xmlns:myapp="clr-namespace:IfFoundLockScreen"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="728"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
@@ -14,6 +15,10 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="False">
+
+    <phone:PhoneApplicationPage.Resources>
+        <myapp:BooleanToMarginConverter x:Key="BooleanToMarginConverter" />
+    </phone:PhoneApplicationPage.Resources>
     
     <toolkit:TransitionService.NavigationInTransition>
         <toolkit:NavigationInTransition>
@@ -49,15 +54,17 @@
         </Grid>
 
         <!-- 200  32 -->
-        <StackPanel x:Name="LockTextPanel" Grid.Row="0" Margin="12,32,0,0" Tap="LockTextPanel_Tap">
+        <StackPanel x:Name="LockTextPanel" Grid.Row="0" Tap="LockTextPanel_Tap"
+                    Margin="{Binding MakeRoomForMedia,Converter={StaticResource BooleanToMarginConverter}}"
+                    >
             <!--<TextBlock x:Name="ApplicationTitle" Text="lost phone lock screen" Style="{StaticResource PhoneTextContrastStyle}" Visibility="Collapsed"/>-->
-            <TextBlock x:Name="FoundLine1" Text="test" 
+            <TextBlock x:Name="FoundLine1" Text="{Binding Line1}" 
                        Margin="9,0,0,0" Style="{StaticResource BolderPhoneTextTitle}"/>
-            <TextBlock x:Name="FoundLine2" Text="test"  
+            <TextBlock x:Name="FoundLine2" Text="{Binding Line2}"  
                        Margin="9,-7,0,0" Style="{StaticResource BolderPhoneTextTitle}"/>
-            <TextBlock x:Name="FoundLine3" Text="test" 
+            <TextBlock x:Name="FoundLine3" Text="{Binding Line3}" 
                        Margin="9,-7,0,0" Style="{StaticResource BolderPhoneTextTitle}"/>
-            <TextBlock x:Name="FoundLine4" Text="test" 
+            <TextBlock x:Name="FoundLine4" Text="{Binding Line4}" 
                        Margin="9,-7,0,0" Style="{StaticResource BolderPhoneTextTitle}"/>
         </StackPanel>
 

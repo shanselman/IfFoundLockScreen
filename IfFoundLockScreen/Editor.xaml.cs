@@ -24,12 +24,19 @@ namespace IfFoundLockScreen
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-//            this.DataContext = App.Current.ViewModel;
-            this.DataContext = ((App)(Application.Current)).ViewModel;
+            RewardModel vm = ((App)(Application.Current)).ViewModel as RewardModel;
+            this.DataContext = vm;
+
+            //Work around Silverlight Toolkit Bug for ToggleSwitch
+            this.RoomForMediaSwitch.IsChecked = vm.MakeRoomforMedia;
         }
 
         private void ApplicationBarOKIconButton_Click(object sender, EventArgs e)
         {
+            RewardModel vm = ((App)(Application.Current)).ViewModel as RewardModel;
+            //Work around Silverlight Toolkit Bug for ToggleSwitch
+            vm.MakeRoomforMedia = this.RoomForMediaSwitch.IsChecked;
+
             ((App)(Application.Current)).SaveData();
             this.NavigationService.GoBack();
         }
