@@ -230,6 +230,22 @@ namespace IfFoundLockScreen
             // Get the size of the source image captured by the camera
             BitmapImage obi = ImageToCrop.Source as BitmapImage;
 
+            //double cx = width;
+            //double cy = bi.PixelHeight * (cx / bi.PixelWidth);
+
+            //Image image = new Image();
+            //image.Source = bi;
+
+            //WriteableBitmap wb = new WriteableBitmap((int)cx, (int)cy);
+            //ScaleTransform transform = new ScaleTransform();
+            //transform.ScaleX = cx / bi.PixelWidth;
+            //transform.ScaleY = cy / bi.PixelHeight;
+            //wb.Render(image, transform);
+            //wb.Invalidate();
+
+            Point something = CropBorder.TransformToVisual(ImageToCrop).Transform(new Point(0, 0));
+
+
             double originalImageWidth = obi.PixelWidth;
             double originalImageHeight = obi.PixelHeight;
 
@@ -241,29 +257,41 @@ namespace IfFoundLockScreen
             double widthRatio = originalImageWidth / displayedWidth;
             double heightRatio = originalImageHeight / displayedHeight;
 
+            double goalHeight = 800;
+            double goalWidth = 480;
+
             // Create a new WriteableBitmap. The size of the bitmap is the size of the cropping rectangle
             // drawn by the user, multiplied by the image size ratio.
 
-            Point p1 = new Point(60, 60);
-            Point p2 = new Point(60 + 360, 60 + 600);
+            Point p1 = CropBorder.TransformToVisual(ImageToCrop).Transform(new Point(0, 0));
+            Point p2 = CropBorder.TransformToVisual(ImageToCrop).Transform(new Point(CropBorder.ActualWidth, CropBorder.ActualHeight));
 
-            WriteableBitmap wb = new WriteableBitmap((int)(widthRatio * Math.Abs(p2.X - p1.X)), (int)(heightRatio * Math.Abs(p2.Y - p1.Y)));
+            double viewPortWidthRatio = CropBorder.ActualWidth / goalWidth;
+            double viewPortHeightRatio = CropBorder.ActualHeight / goalHeight;
+
+            //WriteableBitmap wb = new WriteableBitmap((int)(widthRatio * Math.Abs(p2.X - p1.X)), (int)(heightRatio * Math.Abs(p2.Y - p1.Y)));
+            WriteableBitmap wb = new WriteableBitmap((int)goalWidth, (int)goalHeight); //size of our goal
 
             // Calculate the offset of the cropped image. This is the distance, in pixels, to the top left corner
             // of the cropping rectangle, multiplied by the image size ratio.
             int xoffset = (int)(((p1.X < p2.X) ? p1.X : p2.X) * widthRatio);
             int yoffset = (int)(((p1.Y < p2.Y) ? p1.Y : p2.X) * heightRatio);
 
-            // Copy the pixels from the targeted region of the source image into the target image, 
-            // using the calculated offset
-            for (int i = 0; i < wb.Pixels.Length; i++)
-            {
-                int x = (int)((i % wb.PixelWidth) + xoffset);
-                int y = (int)((i / wb.PixelHeight) + yoffset);
-                wb.Pixels[i] = wb.Pixels[y * wb.PixelHeight + x];
-            }
+            CompositeTransform transform = new CompositeTransform();
+            //transform.ScaleX = TotalImageScale*widthRatio/.75;
+            //transform.ScaleY = TotalImageScale*heightRatio/.75;
+            transform.ScaleX = TotalImageScale * (1 / viewPortWidthRatio);
+            transform.ScaleY = TotalImageScale * (1 / viewPortHeightRatio);
+            transform.CenterX = something.X;
+            transform.CenterY = something.Y; 
+            transform.TranslateX = -(something.X);
+            transform.TranslateY = -(something.Y);
+            wb.Render(ImageToCrop, transform);
+            wb.Invalidate();
 
-
+            RectangleGeometry geo = new RectangleGeometry();
+            geo.Rect = new Rect(p1, p2);
+            ImageToCrop.Clip = geo;
 
             ((App)App.Current).SaveCustomBackground(wb);
 
@@ -273,4 +301,5 @@ namespace IfFoundLockScreen
     }
 
 }
+
 
