@@ -214,19 +214,57 @@ namespace IfFoundLockScreen
 
         private void ApplicationBarIconButton_Click(object sender, EventArgs e)
         {
-            WriteableBitmap wb = new WriteableBitmap(480, 800);
+            //WriteableBitmap wb = new WriteableBitmap(480, 800);
             
-            CompositeTransform r = new CompositeTransform();
-            r.ScaleX = TotalImageScale * 1.3;
-            r.ScaleY = TotalImageScale * 1.3;
-            r.TranslateX = ImagePosition.X-60;
-            r.TranslateY = ImagePosition.Y-60;
-            r.Transform(new Point(0,0));
+            //CompositeTransform r = new CompositeTransform();
+            //r.ScaleX = TotalImageScale * 1.3;
+            //r.ScaleY = TotalImageScale * 1.3;
+            //r.TranslateX = ImagePosition.X-60;
+            //r.TranslateY = ImagePosition.Y-60;
+            //r.Transform(new Point(0,0));
             
 
-            wb.Render(ImageToCrop, r);
-            wb.Invalidate();
-            
+            //wb.Render(ImageToCrop, r);
+            //wb.Invalidate();
+
+            // Get the size of the source image captured by the camera
+            BitmapImage obi = ImageToCrop.Source as BitmapImage;
+
+            double originalImageWidth = obi.PixelWidth;
+            double originalImageHeight = obi.PixelHeight;
+
+            // Get the size of the image when it is displayed on the phone
+            double displayedWidth = ImageToCrop.ActualWidth;
+            double displayedHeight = ImageToCrop.ActualHeight;
+
+            // Calculate the ratio of the original image to the displayed image
+            double widthRatio = originalImageWidth / displayedWidth;
+            double heightRatio = originalImageHeight / displayedHeight;
+
+            // Create a new WriteableBitmap. The size of the bitmap is the size of the cropping rectangle
+            // drawn by the user, multiplied by the image size ratio.
+
+            Point p1 = new Point(60, 60);
+            Point p2 = new Point(60 + 360, 60 + 600);
+
+            WriteableBitmap wb = new WriteableBitmap((int)(widthRatio * Math.Abs(p2.X - p1.X)), (int)(heightRatio * Math.Abs(p2.Y - p1.Y)));
+
+            // Calculate the offset of the cropped image. This is the distance, in pixels, to the top left corner
+            // of the cropping rectangle, multiplied by the image size ratio.
+            int xoffset = (int)(((p1.X < p2.X) ? p1.X : p2.X) * widthRatio);
+            int yoffset = (int)(((p1.Y < p2.Y) ? p1.Y : p2.X) * heightRatio);
+
+            // Copy the pixels from the targeted region of the source image into the target image, 
+            // using the calculated offset
+            for (int i = 0; i < wb.Pixels.Length; i++)
+            {
+                int x = (int)((i % wb.PixelWidth) + xoffset);
+                int y = (int)((i / wb.PixelHeight) + yoffset);
+                wb.Pixels[i] = wb.Pixels[y * wb.PixelHeight + x];
+            }
+
+
+
             ((App)App.Current).SaveCustomBackground(wb);
 
 
