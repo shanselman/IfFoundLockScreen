@@ -20,6 +20,8 @@ using Microsoft.Xna.Framework.Media;
 using System.Windows.Controls.Primitives;
 using Microsoft.Phone.Shell;
 using Coding4Fun.Phone.Controls;
+using System.Windows.Data;
+using System.Globalization;
 
 namespace IfFoundLockScreen
 {
@@ -52,10 +54,10 @@ namespace IfFoundLockScreen
         {
             LittleWatson.CheckForPreviousException();
 
-            if (((App)App.Current).ViewModel.SeenHelpOnce == false)
+            if (ViewModel.SeenHelpOnce == false)
             {
                 ApplicationBarHelpIconButton_Click(this, null);
-                ((App)App.Current).ViewModel.SeenHelpOnce = true;
+                ViewModel.SeenHelpOnce = true;
                 ((App)App.Current).SaveData();
             }
 
@@ -73,6 +75,17 @@ namespace IfFoundLockScreen
                 bi.UriSource = new Uri("Images\\initialwallpaper.jpg", UriKind.Relative);
                 this.CustomBackground.Source = bi;
             }
+        }
+
+        public RewardModel ViewModel
+        {
+            get { return ((App)App.Current).ViewModel as RewardModel; }
+        }
+
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            //new Thickness(0, 0,  ? 200 : 32, 0);
+            base.OnNavigatedTo(e);
         }
 
         protected override void OnBackKeyPress(CancelEventArgs e)
@@ -242,14 +255,14 @@ namespace IfFoundLockScreen
 
         private void ApplicationBarThemeIconButton_Click(object sender, EventArgs e)
         {
-            ((App)App.Current).ViewModel.InvertedText = !((App)App.Current).ViewModel.InvertedText;
+            ViewModel.InvertedText = !ViewModel.InvertedText;
             UpdateInvertStatus();
         }
 
         private void UpdateInvertStatus()
         {
             ApplicationBarIconButton foo = ApplicationBar.Buttons[3] as ApplicationBarIconButton;
-            if (((App)App.Current).ViewModel.InvertedText)
+            if (ViewModel.InvertedText)
             {
                 foo.IconUri = new Uri("Images\\appbar.theme.inverse.png", UriKind.Relative);
             }
@@ -259,7 +272,7 @@ namespace IfFoundLockScreen
             }
 
             Style foundLineStyle;
-            if (((App)App.Current).ViewModel.InvertedText)
+            if (ViewModel.InvertedText)
             {
                 foundLineStyle = (Style)Application.Current.Resources["BolderPhoneTextTitleContrast"];
             }
@@ -279,4 +292,33 @@ namespace IfFoundLockScreen
             NavigationService.Navigate(new Uri("/YourLastAboutDialog;component/AboutPage.xaml", UriKind.Relative));
         }
     }
+
+    
+    /// <summary>
+    /// A type converter for visibility and boolean values.
+    /// </summary>
+    public class BooleanToMarginConverter : IValueConverter
+    {
+        public object Convert(
+            object value,
+            Type targetType,
+            object parameter,
+            CultureInfo culture)
+        {
+            bool myBool = (bool)value;
+            return new Thickness(0, 0, myBool ? 200 : 32, 0);
+        }
+ 
+        public object ConvertBack(
+            object value,
+            Type targetType,
+            object parameter,
+            CultureInfo culture)
+        {
+            return null;
+            //Visibility visibility = (Visibility)value;
+            //return (visibility == Visibility.Visible);
+        }
+    }
+
 }
