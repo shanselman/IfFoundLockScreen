@@ -54,15 +54,12 @@
         </Item>
         "<Item Title="history"
       Type="text">
-            1.0.0.0
-            This is the initial public version.
-            
-            1.0.1.0
-            Help visible on the light theme now. (Tip: don't hardcode colors!)
-            Added OK button on Editor screen as the hardware back button isn't intuitive to all.
-            Added buttons to the Help and Save popups although tapping anywhere works also.
-            Changed Back Button behavior so that Hardware Back dimisses Help and Save popups.
-            
+            1.0.3.0
+            Pictures Hub integration! We're in Apps! Send pictures you are viewing straight here from the hub!
+            Notification toast when you save a new background
+            Move the next for when your Media is playing
+            Improved image quality by reducing transformations
+
             1.0.2.0
             Removed progress bar as the app is fast enough without it.
             Added option to invert colors so that folks with the white theme and a dark pic can have more control.
@@ -70,8 +67,15 @@
             Better initial wallpaper
             Fixed data persistance bug on Mango task switching
             Added fourth optional line for more data
-            
-            
+
+            1.0.1.0
+            Help visible on the light theme now. (Tip: don't hardcode colors!)
+            Added OK button on Editor screen as the hardware back button isn't intuitive to all.
+            Added buttons to the Help and Save popups although tapping anywhere works also.
+            Changed Back Button behavior so that Hardware Back dimisses Help and Save popups.
+
+            1.0.0.0
+            This is the initial public version.
         </Item>
     </Items>
 </About>

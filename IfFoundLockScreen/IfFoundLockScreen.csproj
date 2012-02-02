@@ -73,6 +73,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Crop.xaml.cs">
+      <DependentUpon>Crop.xaml</DependentUpon>
+    </Compile>
     <Compile Include="HelpSavePopup.xaml.cs">
       <DependentUpon>HelpSavePopup.xaml</DependentUpon>
     </Compile>
@@ -96,6 +99,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="Crop.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="HelpSavePopup.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -128,6 +135,7 @@
     <Content Include="Images\appbar.transport.ff.rest.png" />
     <Content Include="Images\appbar.transport.pause.rest.png" />
     <Content Include="Images\appbar.transport.rew.rest.png" />
+    <Content Include="Images\Desert.jpg" />
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Delete.png" />

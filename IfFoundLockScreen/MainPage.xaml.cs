@@ -71,7 +71,7 @@ namespace IfFoundLockScreen
             else //use the standard image
             {
                 BitmapImage bi = new BitmapImage();
-                bi.CreateOptions = BitmapCreateOptions.None;
+                bi.CreateOptions = BitmapCreateOptions.BackgroundCreation; //TODO: confirm this is cool
                 bi.UriSource = new Uri("Images\\initialwallpaper.jpg", UriKind.Relative);
                 this.CustomBackground.Source = bi;
             }
