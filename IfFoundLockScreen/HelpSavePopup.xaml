@@ -7,9 +7,9 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    d:DesignHeight="448" d:DesignWidth="480">
+    d:DesignHeight="668" d:DesignWidth="480">
     
-    <Grid Height="448" Width="480" x:Name="LayoutRoot" 
+    <Grid Height="668" Width="480" x:Name="LayoutRoot" 
           Background="{StaticResource PhoneBackgroundBrush}" Opacity="0.8"            >
         <StackPanel Margin="0,24,0,0" >
         <TextBlock x:Name="HelpSave" TextAlignment="Left" VerticalAlignment="Center"
@@ -19,7 +19,12 @@
             <LineBreak/>
             <LineBreak/>
             Go back to your phone's Home, open Settings, then Lock+Wallpaper and choose the new custom wallpaper as your Lock Screen and never lose your phone again!
+            <LineBreak/>
+            <LineBreak/>
+            You can also change your wallpaper directly from a photo in the Photos Hub.
         </TextBlock>
+            <TextBlock Margin="24,0,24,24" 
+                      TextWrapping="Wrap" Style="{StaticResource BoldPhoneTextMediaStyle}" >Note: There is currently no technical way for this app to change your wallpaper automatically.</TextBlock>
             <Button x:Name="Lameo" Height="84" Margin="12,0,12,0" Click="Lameo_Click">Save</Button>
         </StackPanel>
     </Grid>

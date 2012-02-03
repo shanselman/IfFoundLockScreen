@@ -76,6 +76,11 @@
     <Compile Include="Crop.xaml.cs">
       <DependentUpon>Crop.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\EXIBLib\ExifIds.cs" />
+    <Compile Include="Helpers\EXIBLib\ExifIO.cs" />
+    <Compile Include="Helpers\EXIBLib\ExifReader.cs" />
+    <Compile Include="Helpers\EXIBLib\ExifTag.cs" />
+    <Compile Include="Helpers\EXIBLib\JpegInfo.cs" />
     <Compile Include="HelpSavePopup.xaml.cs">
       <DependentUpon>HelpSavePopup.xaml</DependentUpon>
     </Compile>
