@@ -56,7 +56,7 @@
                     
                 <!--Image for the WriteableBitmap object destined for cropping.-->
                 <Image x:Name="ImageToCrop" Height="800" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,0"
-                       Source="Images/Desert.jpg" CacheMode="BitmapCache" RenderTransformOrigin="0,0">
+                       CacheMode="BitmapCache" RenderTransformOrigin="0,0">
                     <toolkit:GestureService.GestureListener>
                         <toolkit:GestureListener DragDelta="OnDragDelta" 
                                                  PinchStarted="OnPinchStarted"
@@ -65,7 +65,7 @@
                     </toolkit:GestureService.GestureListener>
                     <Image.RenderTransform>
                         <CompositeTransform ScaleX="1" ScaleY="1"
-                                        TranslateX="0" TranslateY="0"/>
+                                        TranslateX="0" TranslateY="0" Rotation="0"/>
                     </Image.RenderTransform>
                 </Image>
 
