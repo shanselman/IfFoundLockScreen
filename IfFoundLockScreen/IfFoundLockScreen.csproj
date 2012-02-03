@@ -140,7 +140,7 @@
     <Content Include="Images\appbar.transport.ff.rest.png" />
     <Content Include="Images\appbar.transport.pause.rest.png" />
     <Content Include="Images\appbar.transport.rew.rest.png" />
-    <Content Include="Images\Desert.jpg" />
+    <Content Include="Images\bigimage.jpg" />
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Delete.png" />

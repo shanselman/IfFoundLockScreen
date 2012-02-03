@@ -30,7 +30,7 @@ namespace IfFoundLockScreen
 
         public RewardModel ViewModel { get; private set; }
 
-
+        public bool LaunchedFromPhotoHub = false;
         
         /// <summary>
         /// Constructor for the Application object.
@@ -123,7 +123,7 @@ namespace IfFoundLockScreen
 
         }
 
-        private readonly string ModelKey = "ViewModel";
+        //private readonly string ModelKey = "ViewModel";
 
         // Code to execute when the application is deactivated (sent to background)
         // This code will not execute when the application is closing

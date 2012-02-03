@@ -84,26 +84,25 @@ namespace IfFoundLockScreen
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
+            if (((App)App.Current).LaunchedFromPhotoHub == true)
+            {
+                //Then we hit back go here and should keep going back to exit.
+                this.NavigationService.GoBack();
+            }
+
             // Get a dictionary of query string keys and values.
             IDictionary<string, string> queryStrings = this.NavigationContext.QueryString;
 
             // Ensure that there is at least one key in the query string, and check whether the "token" key is present.
             // Make sure we don't go here when we get here via a BACK from Crop.
-            if (queryStrings.ContainsKey("token") && e.NavigationMode != System.Windows.Navigation.NavigationMode.Back)
+            if (queryStrings.ContainsKey("token") 
+                && e.NavigationMode != System.Windows.Navigation.NavigationMode.Back)
             {
                 this.NavigationService.Navigate(new Uri(string.Format("/Crop.xaml?token={0}",queryStrings["token"]), UriKind.Relative));
-
             }
 
-            //TODO: Understand why this didn't just work with a convertor?
-            if (ViewModel.MakeRoomforMedia == false)
-            {
-                this.MediaPanel.Visibility = System.Windows.Visibility.Collapsed;
-            }
-            else
-            {
-                this.MediaPanel.Visibility = System.Windows.Visibility.Visible;
-            }
+            UpdateMockup(false);
+           
             base.OnNavigatedTo(e);
         }
 
@@ -208,7 +207,7 @@ namespace IfFoundLockScreen
                     }
                     finally
                     {
-                        CollapseTime(false);
+                        UpdateMockup(false);
 
                     }
                 };
@@ -244,11 +243,11 @@ namespace IfFoundLockScreen
         {
             PreparePopups(); //lazy setup
             // Open the popup. 
-            CollapseTime(true);
+            UpdateMockup(true);
             theSavePopup.IsOpen = true;
         }
 
-        private void CollapseTime(bool p)
+        private void UpdateMockup(bool p)
         {
             if (p)
             {
@@ -263,6 +262,16 @@ namespace IfFoundLockScreen
                 this.MediaPanelInternal.Visibility = System.Windows.Visibility.Visible;
                 this.ApplicationBar.IsVisible = true;
                 this.TimePanel.Visibility = System.Windows.Visibility.Visible;
+            }
+
+            //TODO: Understand why this didn't just work with a convertor?
+            if (ViewModel.MakeRoomforMedia == false)
+            {
+                this.MediaPanel.Visibility = System.Windows.Visibility.Collapsed;
+            }
+            else
+            {
+                this.MediaPanel.Visibility = System.Windows.Visibility.Visible;
             }
         }
 

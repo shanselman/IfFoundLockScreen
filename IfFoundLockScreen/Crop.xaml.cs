@@ -14,6 +14,9 @@ using System.Windows.Media.Imaging;
 using System.IO;
 using Microsoft.Xna.Framework.Media;
 using ExifLib;
+using Coding4Fun.Phone.Controls;
+using System.Threading;
+using System.Windows.Controls.Primitives;
 
 namespace IfFoundLockScreen
 {
@@ -189,14 +192,14 @@ namespace IfFoundLockScreen
         {
             return true;
 
-            if (ImagePosition.X + translateDelta.X > 0 || ImagePosition.Y + translateDelta.Y > 0)
-                return false;
+            //if (ImagePosition.X + translateDelta.X > 0 || ImagePosition.Y + translateDelta.Y > 0)
+            //    return false;
 
-            if ((ImageToCrop.ActualWidth * TotalImageScale * scaleDelta) + (ImagePosition.X + translateDelta.X) < ImageToCrop.ActualWidth)
-                return false;
+            //if ((ImageToCrop.ActualWidth * TotalImageScale * scaleDelta) + (ImagePosition.X + translateDelta.X) < ImageToCrop.ActualWidth)
+            //    return false;
 
-            if ((ImageToCrop.ActualHeight * TotalImageScale * scaleDelta) + (ImagePosition.Y + translateDelta.Y) < ImageToCrop.ActualHeight)
-                return false;
+            //if ((ImageToCrop.ActualHeight * TotalImageScale * scaleDelta) + (ImagePosition.Y + translateDelta.Y) < ImageToCrop.ActualHeight)
+            //    return false;
 
             return true;
         }
@@ -261,6 +264,7 @@ namespace IfFoundLockScreen
             //Actually save it
             ((App)App.Current).SaveCustomBackground(wb);
 
+            //fade the frame away then fly off the screen!
             Storyboard sb = new Storyboard();
             var duration = new Duration(TimeSpan.FromSeconds(0.750));
 
@@ -277,17 +281,18 @@ namespace IfFoundLockScreen
                 sb.Children.Add(fadeOut);
             }
             sb.Begin();
+
             sb.Completed += (s, ea) => { 
                 
-                    //When we've darken the outside, now fly away!
+                    //When we've darkened the outside, now fly away!
                     ImageToCrop.Clip = geo;
 
                     Storyboard sb1 = new Storyboard();
-                    sb1.Duration = new Duration(TimeSpan.FromMilliseconds(400));
+                    sb1.Duration = new Duration(TimeSpan.FromMilliseconds(250));
                     
                     var flyAway = new DoubleAnimationUsingKeyFrames();
                     flyAway.KeyFrames.Add(new LinearDoubleKeyFrame() { KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(0)), Value = 0 });
-                    flyAway.KeyFrames.Add(new LinearDoubleKeyFrame() { KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(400)), Value = 800 });
+                    flyAway.KeyFrames.Add(new LinearDoubleKeyFrame() { KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(250)), Value = 800 });
                     
                     Storyboard.SetTarget(flyAway, this.ContentPanel);
                     Storyboard.SetTargetProperty(flyAway, 
@@ -301,11 +306,22 @@ namespace IfFoundLockScreen
             
         }
 
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            ((App)App.Current).LaunchedFromPhotoHub = true;
+            base.OnBackKeyPress(e);
+        }
+
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
             //Did we get deep linked to?
             // Get a dictionary of query string keys and values.
             IDictionary<string, string> queryStrings = this.NavigationContext.QueryString;
+
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
+                ImageToCrop.Source = new BitmapImage(new Uri("Images/BigImage.jpg", UriKind.Relative));
+            }
 
             if (queryStrings.ContainsKey("token"))
             {
@@ -316,12 +332,12 @@ namespace IfFoundLockScreen
                 // Create a WriteableBitmap object and add it to the Image control Source property.
                 Stream s = picture.GetImage();
                 JpegInfo info = ExifLib.ExifReader.ReadJpeg(s, "magic.jpg");
-   
+
                 var _width = info.Width;
                 var _height = info.Height;
                 var _orientation = info.Orientation;
                 var _angle = 0;
-                
+
                 switch (info.Orientation)
                 {
                     case ExifOrientation.TopLeft:
@@ -338,8 +354,9 @@ namespace IfFoundLockScreen
                         _angle = 270;
                         break;
                 }
+
                 //DEBUG
-                MessageBox.Show("Angle: " + _angle);
+                //MessageBox.Show("Angle: " + _angle);
 
                 Stream resultStream;
                 if (_angle > 0d)
@@ -354,10 +371,62 @@ namespace IfFoundLockScreen
                 BitmapImage bitmap = new BitmapImage();
                 bitmap.CreateOptions = BitmapCreateOptions.None;
                 bitmap.SetSource(resultStream);
+
                 this.ImageToCrop.Source = bitmap;
+
+                //TODO: Hardware accelerated attempt #1
+                //RotateImage(_angle, ImageToCrop, wb);
+
+                //TODO: Hardware accelerated attempt #2
+                //CompositeTransform t = ImageToCrop.RenderTransform as CompositeTransform;
+                //RotateTransform r = new RotateTransform();
+                //r.Angle = _angle;
+
+
             }
             base.OnNavigatedTo(e);
         }
+
+        private void RotateImage(int angle, Image image, WriteableBitmap _wbImage)
+        {
+            WriteableBitmap wbdest = new WriteableBitmap(_wbImage.PixelHeight, _wbImage.PixelWidth);
+
+            System.Windows.Media.RotateTransform rotTransform = new System.Windows.Media.RotateTransform();
+            System.Windows.Media.TranslateTransform traTransform = new System.Windows.Media.TranslateTransform();
+            System.Windows.Media.TransformGroup group = new System.Windows.Media.TransformGroup();
+
+            traTransform.X = -(_wbImage.PixelWidth - _wbImage.PixelHeight) / 2.0;
+            traTransform.Y = -(_wbImage.PixelHeight - _wbImage.PixelWidth) / 2.0;
+
+            rotTransform.CenterX = (double)_wbImage.PixelWidth / 2.0;
+            rotTransform.CenterY = (double)_wbImage.PixelHeight / 2.0;
+            rotTransform.Angle = angle;
+
+            group.Children = new System.Windows.Media.TransformCollection();
+            group.Children.Add(rotTransform);
+            group.Children.Add(traTransform);
+
+            image.Margin = new Thickness(0);
+            image.Width = _wbImage.PixelWidth;
+            image.Height = _wbImage.PixelHeight;
+            image.Source = _wbImage;
+            image.RenderTransformOrigin = new Point(0, 0);
+
+            wbdest.Render(image, group);
+
+            //image = null;
+            rotTransform = null;
+            traTransform = null;
+            group = null;
+
+            wbdest.Invalidate();
+
+            //AfterAction(wbdest);
+
+            wbdest = null;
+            GC.Collect();
+        }
+
 
           private Stream RotateStream(Stream stream, int angle)
           {
