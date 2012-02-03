@@ -88,21 +88,11 @@ namespace IfFoundLockScreen
             IDictionary<string, string> queryStrings = this.NavigationContext.QueryString;
 
             // Ensure that there is at least one key in the query string, and check whether the "token" key is present.
-            if (queryStrings.ContainsKey("token"))
+            // Make sure we don't go here when we get here via a BACK from Crop.
+            if (queryStrings.ContainsKey("token") && e.NavigationMode != System.Windows.Navigation.NavigationMode.Back)
             {
-                //Did we get deep linked to?
+                this.NavigationService.Navigate(new Uri(string.Format("/Crop.xaml?token={0}",queryStrings["token"]), UriKind.Relative));
 
-                // Retrieve the picture from the media library using the token passed to the application.
-                MediaLibrary library = new MediaLibrary();
-                Picture picture = library.GetPictureFromToken(queryStrings["token"]);
-                
-                // Create a WriteableBitmap object and add it to the Image control Source property.
-                BitmapImage bitmap = new BitmapImage();
-                bitmap.CreateOptions = BitmapCreateOptions.None;
-                bitmap.SetSource(picture.GetImage());
-                
-                this.CustomBackground.Source = bitmap;
-                ((App)App.Current).SaveCustomBackground(bitmap);
             }
 
             //TODO: Understand why this didn't just work with a convertor?
@@ -184,7 +174,7 @@ namespace IfFoundLockScreen
             {
                 theSavePopup = new Popup();
                 theSavePopup.Child = new HelpSavePopup();
-                theSavePopup.VerticalOffset = 250;
+                theSavePopup.VerticalOffset = 70;
                 theSavePopup.HorizontalOffset = 0;
                 theSavePopup.Closed += (sender1, e1) =>
                 {
