@@ -19,7 +19,7 @@
       <Capability Name="ID_CAP_APPOINTMENTS" />-->
         </Capabilities>
         <Tasks>
-            <DefaultTask Name="_default" NavigationPage="Crop.xaml" />
+            <DefaultTask Name="_default" NavigationPage="MainPage.xaml" />
         </Tasks>
         <Tokens>
             <PrimaryToken TokenID="IfFoundLockScreenToken" TaskName="_default">

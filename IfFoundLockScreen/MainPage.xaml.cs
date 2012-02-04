@@ -84,12 +84,9 @@ namespace IfFoundLockScreen
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
-            if (((App)App.Current).LaunchedFromPhotoHub == true)
-            {
-                //Then we hit back go here and should keep going back to exit.
-                this.NavigationService.GoBack();
-            }
-
+            //MessageBox.Show("NavMode:" + e.NavigationMode.ToString());
+            //MessageBox.Show("Initiator:" + e.IsNavigationInitiator);
+            
             // Get a dictionary of query string keys and values.
             IDictionary<string, string> queryStrings = this.NavigationContext.QueryString;
 

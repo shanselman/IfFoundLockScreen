@@ -308,12 +308,15 @@ namespace IfFoundLockScreen
 
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
-            ((App)App.Current).LaunchedFromPhotoHub = true;
+            this.NavigationService.RemoveBackEntry();
             base.OnBackKeyPress(e);
         }
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
+            //MessageBox.Show("NavMode:" + e.NavigationMode.ToString());
+            //MessageBox.Show("Initiator:" + e.IsNavigationInitiator);
+
             //Did we get deep linked to?
             // Get a dictionary of query string keys and values.
             IDictionary<string, string> queryStrings = this.NavigationContext.QueryString;

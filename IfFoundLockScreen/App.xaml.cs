@@ -30,8 +30,6 @@ namespace IfFoundLockScreen
 
         public RewardModel ViewModel { get; private set; }
 
-        public bool LaunchedFromPhotoHub = false;
-        
         /// <summary>
         /// Constructor for the Application object.
         /// </summary>
