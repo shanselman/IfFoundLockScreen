@@ -73,7 +73,7 @@
         
         <StackPanel x:Name="LockTextPanel" Grid.Row="1" Tap="LockTextPanel_Tap" Margin="12,32,0,0"> <!-- L, T, R, B -->
 
-            <TextBlock x:Name="FoundLine1" Text="tst}" 
+            <TextBlock x:Name="FoundLine1" Text="{Binding Line1}" 
                        Margin="9,0,0,0" Style="{StaticResource BolderPhoneTextTitle}"/>
             <TextBlock x:Name="FoundLine2" Text="{Binding Line2}"  
                        Margin="9,-7,0,0" Style="{StaticResource BolderPhoneTextTitle}"/>
