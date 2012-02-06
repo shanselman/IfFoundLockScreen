@@ -26,207 +26,79 @@ namespace IfFoundLockScreen
         {
             InitializeComponent();
 
+            ImageToCrop.ManipulationDelta += new EventHandler<ManipulationDeltaEventArgs>(ImageToCrop_ManipulationDelta);
+            ImageToCrop.ManipulationStarted += new EventHandler<ManipulationStartedEventArgs>(ImageToCrop_ManipulationStarted);
+            ImageToCrop.RenderTransform = new CompositeTransform();
         }
 
-        // these two fields fully define the zoom state:
-        private double TotalImageScale = 1d;
-        private Point ImagePosition = new Point(0, 0);
+        private Point? lastOrigin;
+        private double lastUniformScale;
 
-        private const double MAX_IMAGE_ZOOM = 5;
-        private Point _oldFinger1;
-        private Point _oldFinger2;
-        private double _oldScaleFactor;
-
-        #region Event handlers
-
-        /// <summary>
-        /// Initializes the zooming operation
-        /// </summary>
-        private void OnPinchStarted(object sender, PinchStartedGestureEventArgs e)
+        void ImageToCrop_ManipulationStarted(object sender, ManipulationStartedEventArgs e)
         {
-            _oldFinger1 = e.GetPosition(ImageToCrop, 0);
-            _oldFinger2 = e.GetPosition(ImageToCrop, 1);
-            _oldScaleFactor = 1;
+            lastUniformScale = Math.Sqrt(2);
+            lastOrigin = null;
         }
 
-        /// <summary>
-        /// Computes the scaling and translation to correctly zoom around your fingers.
-        /// </summary>
-        private void OnPinchDelta(object sender, PinchGestureEventArgs e)
+        void ImageToCrop_ManipulationDelta(object sender, ManipulationDeltaEventArgs e)
         {
-            var scaleFactor = e.DistanceRatio / _oldScaleFactor;
-            if (!IsScaleValid(scaleFactor))
-                return;
+            var transform = ImageToCrop.RenderTransform as CompositeTransform;
+            if (transform != null)
+            {
+                var origin = e.ManipulationContainer.TransformToVisual(this).Transform(e.ManipulationOrigin);
 
-            var currentFinger1 = e.GetPosition(ImageToCrop, 0);
-            var currentFinger2 = e.GetPosition(ImageToCrop, 1);
+                if (!lastOrigin.HasValue)
+                    lastOrigin = origin;
 
-            var translationDelta = GetTranslationDelta(
-                currentFinger1,
-                currentFinger2,
-                _oldFinger1,
-                _oldFinger2,
-                ImagePosition,
-                scaleFactor);
+                //Calculate uniform scale factor
+                double uniformScale = Math.Sqrt(Math.Pow(e.CumulativeManipulation.Scale.X, 2) +
+                                                Math.Pow(e.CumulativeManipulation.Scale.Y, 2));
+                if (uniformScale == 0)
+                    uniformScale = lastUniformScale;
 
-            _oldFinger1 = currentFinger1;
-            _oldFinger2 = currentFinger2;
-            _oldScaleFactor = e.DistanceRatio;
+                //Current scale factor
+                double scale = uniformScale / lastUniformScale;
 
-            UpdateImageScale(scaleFactor);
-            UpdateImagePosition(translationDelta);
+                if (scale > 0 && scale != 1)
+                {
+                    //Apply scaling
+                    transform.ScaleY = transform.ScaleX *= scale;
+                    //Update the offset caused by this scaling
+                    var ul = ImageToCrop.TransformToVisual(this).Transform(new Point());
+                    transform.TranslateX = origin.X - (origin.X - ul.X) * scale;
+                    transform.TranslateY = origin.Y - (origin.Y - ul.Y) * scale;
+                }
+                //Apply translate caused by drag
+                transform.TranslateX += (origin.X - lastOrigin.Value.X);
+                transform.TranslateY += (origin.Y - lastOrigin.Value.Y);
+
+                //Cache values for next time
+                lastOrigin = origin;
+                lastUniformScale = uniformScale;
+            }
+
         }
 
-        /// <summary>
-        /// Moves the image around following your finger.
-        /// </summary>
-        private void OnDragDelta(object sender, DragDeltaGestureEventArgs e)
-        {
-            var translationDelta = new Point(e.HorizontalChange, e.VerticalChange);
-
-            if (IsDragValid(1, translationDelta))
-                UpdateImagePosition(translationDelta);
-        }
-
-        /// <summary>
-        /// Resets the image scaling and position
-        /// </summary>
-        private void OnDoubleTap(object sender, Microsoft.Phone.Controls.GestureEventArgs e)
-        {
-            ResetImagePosition();
-        }
         
-        #endregion
-
-        #region Utils
-
-        /// <summary>
-        /// Computes the translation needed to keep the image centered between your fingers.
-        /// </summary>
-        private Point GetTranslationDelta(
-            Point currentFinger1, Point currentFinger2,
-            Point oldFinger1, Point oldFinger2,
-            Point currentPosition, double scaleFactor)
-        {
-            var newPos1 = new Point(
-             currentFinger1.X + (currentPosition.X - oldFinger1.X) * scaleFactor,
-             currentFinger1.Y + (currentPosition.Y - oldFinger1.Y) * scaleFactor);
-
-            var newPos2 = new Point(
-             currentFinger2.X + (currentPosition.X - oldFinger2.X) * scaleFactor,
-             currentFinger2.Y + (currentPosition.Y - oldFinger2.Y) * scaleFactor);
-
-            var newPos = new Point(
-                (newPos1.X + newPos2.X) / 2,
-                (newPos1.Y + newPos2.Y) / 2);
-
-            return new Point(
-                newPos.X - currentPosition.X,
-                newPos.Y - currentPosition.Y);
-        }
-
-        /// <summary>
-        /// Updates the scaling factor by multiplying the delta.
-        /// </summary>
-        private void UpdateImageScale(double scaleFactor)
-        {
-            TotalImageScale *= scaleFactor;
-            ApplyScale();
-        }
-
-        /// <summary>
-        /// Applies the computed scale to the image control.
-        /// </summary>
-        private void ApplyScale()
-        {
-            ((CompositeTransform)ImageToCrop.RenderTransform).ScaleX = TotalImageScale;
-            ((CompositeTransform)ImageToCrop.RenderTransform).ScaleY = TotalImageScale;
-        }
-
-        /// <summary>
-        /// Updates the image position by applying the delta.
-        /// Checks that the image does not leave empty space around its edges.
-        /// </summary>
-        private void UpdateImagePosition(Point delta)
-        {
-            var newPosition = new Point(ImagePosition.X + delta.X, ImagePosition.Y + delta.Y);
-
-            //if (newPosition.X > 0) newPosition.X = 0;
-            //if (newPosition.Y > 0) newPosition.Y = 0;
-
-            //if ((ImageToCrop.ActualWidth * TotalImageScale) + newPosition.X < ImageToCrop.ActualWidth)
-            //    newPosition.X = ImageToCrop.ActualWidth - (ImageToCrop.ActualWidth * TotalImageScale);
-
-            //if ((ImageToCrop.ActualHeight * TotalImageScale) + newPosition.Y < ImageToCrop.ActualHeight)
-            //    newPosition.Y = ImageToCrop.ActualHeight - (ImageToCrop.ActualHeight * TotalImageScale);
-
-            ImagePosition = newPosition;
-
-            ApplyPosition();
-        }
-
-        /// <summary>
-        /// Applies the computed position to the image control.
-        /// </summary>
-        private void ApplyPosition()
-        {
-            ((CompositeTransform)ImageToCrop.RenderTransform).TranslateX = ImagePosition.X;
-            ((CompositeTransform)ImageToCrop.RenderTransform).TranslateY = ImagePosition.Y;
-        }
-
-        /// <summary>
-        /// Resets the zoom to its original scale and position
-        /// </summary>
-        private void ResetImagePosition()
-        {
-            TotalImageScale = 1;
-            ImagePosition = new Point(0, 0);
-            ApplyScale();
-            ApplyPosition();
-        }
-
-        /// <summary>
-        /// Checks that dragging by the given amount won't result in empty space around the image
-        /// </summary>
-        private bool IsDragValid(double scaleDelta, Point translateDelta)
-        {
-            return true;
-
-            //if (ImagePosition.X + translateDelta.X > 0 || ImagePosition.Y + translateDelta.Y > 0)
-            //    return false;
-
-            //if ((ImageToCrop.ActualWidth * TotalImageScale * scaleDelta) + (ImagePosition.X + translateDelta.X) < ImageToCrop.ActualWidth)
-            //    return false;
-
-            //if ((ImageToCrop.ActualHeight * TotalImageScale * scaleDelta) + (ImagePosition.Y + translateDelta.Y) < ImageToCrop.ActualHeight)
-            //    return false;
-
-            return true;
-        }
-
-        /// <summary>
-        /// Tells if the scaling is inside the desired range
-        /// </summary>
-        private bool IsScaleValid(double scaleDelta)
-        {
-            return (TotalImageScale * scaleDelta >= 0.8) && (TotalImageScale * scaleDelta <= MAX_IMAGE_ZOOM);
-        }
-
-        #endregion
-
         private void ApplicationBarIconButton_Click(object sender, EventArgs e)
         {
+            lock (imageToCropReadyLock)
+            {
+                if (!imageToCropReady) return;
+                imageToCropReady = true;
+            }
+            
             // Get the size of the source image 
             BitmapImage obi = ImageToCrop.Source as BitmapImage;
 
             double originalImageWidth = obi.PixelWidth;
             double originalImageHeight = obi.PixelHeight;
 
-            // Get the size of the image when it is displayed on the phone
+            //// Get the size of the image when it is displayed on the phone
             double displayedWidth = ImageToCrop.ActualWidth;
             double displayedHeight = ImageToCrop.ActualHeight;
 
-            // Calculate the ratio of the original image to the displayed image
+            //// Calculate the ratio of the original image to the displayed image
             double widthRatio = originalImageWidth / displayedWidth;
             double heightRatio = originalImageHeight / displayedHeight;
 
@@ -241,23 +113,29 @@ namespace IfFoundLockScreen
             RectangleGeometry geo = new RectangleGeometry();
             geo.Rect = new Rect(imageToCropP1, imageToCropP2);
 
-            double viewPortWidthRatio = CropBorder.ActualWidth / goalWidth;
-            double viewPortHeightRatio = CropBorder.ActualHeight / goalHeight;
+            //double viewPortWidthRatio = CropBorder.ActualWidth / goalWidth;
+            //double viewPortHeightRatio = CropBorder.ActualHeight / goalHeight;
 
             WriteableBitmap wb = new WriteableBitmap((int)goalWidth, (int)goalHeight); //size of our goal
 
+            //double uniformScaleFactor = (Math.Sqrt(Math.Pow((60 / ImageToCrop.ActualWidth), 2) +
+            //                        Math.Pow((60 / ImageToCrop.ActualHeight), 2)));
+
             // Calculate the offset of the cropped image. This is the distance, in pixels, to the top left corner
             // of the cropping rectangle, multiplied by the image size ratio.
-            int xoffset = (int)(((imageToCropP1.X < imageToCropP2.X) ? imageToCropP1.X : imageToCropP2.X) * widthRatio);
-            int yoffset = (int)(((imageToCropP1.Y < imageToCropP2.Y) ? imageToCropP1.Y : imageToCropP2.X) * heightRatio);
+            //int xoffset = (int)(((imageToCropP1.X < imageToCropP2.X) ? imageToCropP1.X : imageToCropP2.X) * ((CompositeTransform)ImageToCrop.RenderTransform).ScaleX);
+            //int yoffset = (int)(((imageToCropP1.Y < imageToCropP2.Y) ? imageToCropP1.Y : imageToCropP2.X) * ((CompositeTransform)ImageToCrop.RenderTransform).ScaleY);
+            //int xoffset = (int)((60 * ((CompositeTransform)ImageToCrop.RenderTransform).ScaleX));
+            //int yoffset = (int)((60 * ((CompositeTransform)ImageToCrop.RenderTransform).ScaleY));
 
             CompositeTransform transform = new CompositeTransform();
-            transform.ScaleX = TotalImageScale * (1 / viewPortWidthRatio);
-            transform.ScaleY = TotalImageScale * (1 / viewPortHeightRatio);
-            transform.CenterX = imageToCropP1.X;
-            transform.CenterY = imageToCropP1.Y;
-            transform.TranslateX = -(imageToCropP1.X);
-            transform.TranslateY = -(imageToCropP1.Y);
+            transform.ScaleX = ((CompositeTransform)ImageToCrop.RenderTransform).ScaleX; //viewportratio
+            transform.ScaleY = ((CompositeTransform)ImageToCrop.RenderTransform).ScaleY;
+            transform.CenterX = 0;
+            transform.CenterY = 0;
+            transform.TranslateX = ((CompositeTransform)ImageToCrop.RenderTransform).TranslateX;
+            transform.TranslateY = ((CompositeTransform)ImageToCrop.RenderTransform).TranslateY;
+
             wb.Render(ImageToCrop, transform);
             wb.Invalidate();
 
@@ -357,6 +235,7 @@ namespace IfFoundLockScreen
                         _angle = 270;
                         break;
                 }
+                
 
                 //DEBUG
                 //MessageBox.Show("Angle: " + _angle);
@@ -479,6 +358,17 @@ namespace IfFoundLockScreen
               wbTarget.SaveJpeg(targetStream, wbTarget.PixelWidth, wbTarget.PixelHeight, 0, 100);
               return targetStream;
            }
+
+          private object imageToCropReadyLock = new object();  
+          private bool imageToCropReady = false;
+          private void ImageToCrop_Loaded(object sender, RoutedEventArgs e)
+          {
+              lock (imageToCropReadyLock)
+              {
+                  imageToCropReady = true;
+              }
+          }
+
     }
 
     }
