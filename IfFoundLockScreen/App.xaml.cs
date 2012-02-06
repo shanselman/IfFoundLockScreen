@@ -172,7 +172,6 @@ namespace IfFoundLockScreen
                 // An unhandled exception has occurred; break into the debugger
                 System.Diagnostics.Debugger.Break();
             }
-
             LittleWatson.ReportException(e.ExceptionObject,"UnhandledException");
         }
 
@@ -187,7 +186,7 @@ namespace IfFoundLockScreen
                         if (fileStream != null)
                         {
                             BitmapImage bi = new BitmapImage();
-                            bi.CreateOptions = BitmapCreateOptions.BackgroundCreation; //TODO confirm this is cool
+                            bi.CreateOptions = BitmapCreateOptions.BackgroundCreation | BitmapCreateOptions.DelayCreation; //TODO confirm this is cool
                             bi.SetSource(fileStream);
                             return bi;
                         }

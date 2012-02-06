@@ -5,6 +5,7 @@
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:Controls="clr-namespace:Coding4Fun.Phone.Controls;assembly=Coding4Fun.Phone.Controls"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:sharpGIS="clr-namespace:SharpGIS.Controls"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -37,47 +38,38 @@
     </toolkit:TransitionService.NavigationOutTransition>
 
     <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RenderTransform>
+            <TranslateTransform/>
+        </Grid.RenderTransform>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="600"/>
+            <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
 
-        <!--TitlePanel contains the name of the application and page title-->
         <!-- L, T, R, B -->
-        <!--ContentPanel - place additional content here-->
-        <StackPanel x:Name="ContentPanel"  Margin="0,0,0,0">
-            <StackPanel.RenderTransform>
-                <TranslateTransform X="0" Y="0"/>
-            </StackPanel.RenderTransform>
-            
-            <Canvas x:Name="canvas" Width="480" Height="800">
-                <!--<Canvas.Clip>
-                    <RectangleGeometry Rect="60,60,360,600"/>
-                </Canvas.Clip>-->
-                    
-                <!--Image for the WriteableBitmap object destined for cropping.-->
-                <Image x:Name="ImageToCrop" Height="800" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,0"
-                       CacheMode="BitmapCache"  RenderTransformOrigin="0,0" Loaded="ImageToCrop_Loaded">
-                    <!--<toolkit:GestureService.GestureListener>
-                        <toolkit:GestureListener DragDelta="OnDragDelta" 
-                                                 PinchStarted="OnPinchStarted"
-                                                 PinchDelta="OnPinchDelta"
-                                                 DoubleTap="OnDoubleTap"/>
-                    </toolkit:GestureService.GestureListener>-->
-                    <Image.RenderTransform>
-                        <CompositeTransform ScaleX="1" ScaleY="1"
-                                        TranslateX="0" TranslateY="0" Rotation="0"/>
-                    </Image.RenderTransform>
-                </Image>
 
-                <Border x:Name="TopDimBorder" Height="60" Background="Black" BorderBrush="Transparent" BorderThickness="0"  Opacity="0.6" Width="480"  Margin="0,0,0,0"/>
-                <Border x:Name="BottomDimBorder" Height="100" Background="Black" BorderBrush="Transparent" BorderThickness="0"  Opacity="0.6" Width="480"  Margin="0,660,0,0"/>
-                <toolkit:WrapPanel>
-                    <Border x:Name="LeftDimBorder" Background="Black" BorderBrush="Transparent" BorderThickness="0"  Opacity="0.6" Width="60" Height="600"  Margin="0,60,0,0"/>
-                    <Rectangle x:Name="CropBorder" Stroke="White" Opacity="1" Width="360" Height="600"  Margin="0,60,0,0"/>
-                    <Border x:Name="RightDimBorder" Background="Black" BorderBrush="Transparent" BorderThickness="0"  Opacity="0.6" Width="60" Height="600"  Margin="0,60,0,0"/>
-                </toolkit:WrapPanel>
-            </Canvas>
-        </StackPanel>
+        <toolkit:PerformanceProgressBar Grid.Row="0" IsIndeterminate="true" x:Name="progressBar"
+										IsHitTestVisible="false"
+										VerticalAlignment="Top" Canvas.ZIndex="5"
+										/>
+        <Viewbox Grid.Row="1">
+            <!--Use ViewBox to really make the control 480x800, but automatically scale down to 360x600
+			    This will also help preserve resolution when using Writeablebitmap on it-->
+            <sharpGIS:ImageViewer
+			    x:Name="imageControl"
+			    Width="480" Height="800"
+			        ImageOpened="ImageViewer_ImageOpened"
+				    ImageFailed="ImageViewer_ImageFailed"
+        	    />
+        </Viewbox>
+        
+        <Border Width="360" Height="600" Grid.Row="1" x:Name="CropBorder" BorderBrush="White" Canvas.ZIndex="5" BorderThickness="1" Opacity="1" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+        </Border>
+        <Border x:Name="TopDimBorder" Grid.Row="0" Height="60" Background="Black" BorderBrush="Transparent" BorderThickness="0"  Opacity="0.6" Width="480"  Margin="0,0,0,0"/>
+        <Border x:Name="BottomDimBorder" Grid.Row="2" Height="100" Background="Black" BorderBrush="Transparent" BorderThickness="0"  Opacity="0.6" Width="480"  Margin="0,0,0,0"/>
+        <Border x:Name="LeftDimBorder" Grid.Row="1" Background="Black" BorderBrush="Transparent" BorderThickness="0"  Opacity="0.6" Width="60" Height="600"  Margin="0,0,0,0" HorizontalAlignment="Left"/>
+        <Border x:Name="RightDimBorder" Grid.Row="1" Background="Black" BorderBrush="Transparent" BorderThickness="0"  Opacity="0.6" Width="60" Height="600"  Margin="0,0,0,0"  HorizontalAlignment="Right"/>
     </Grid>
  
     <!--Sample code showing usage of ApplicationBar-->

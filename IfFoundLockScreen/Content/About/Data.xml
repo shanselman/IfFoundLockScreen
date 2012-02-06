@@ -41,7 +41,7 @@
         <!-- Supported types are "text" and "xaml", where text is nicely formatted automatically, and XAML is handled by the built-in XamlReader -->
         <Item Title="credits" Type="text">
             Code
-            Scott Hanselman wrote this as his first Windows Phone application in about 6 hours. He was kindly assisted at lunch by Hughes Hilton, who paid for tacos, and late into the night peer programming over Skype with the very patient Bil Simser who helped squash a few Heisenbugs.
+            Scott Hanselman wrote this as his first Windows Phone application in about 6 hours. He was kindly assisted at lunch by Hughes Hilton, who paid for tacos, and late into the night peer programming over Skype with the very patient Bil Simser who helped squash a few Heisenbugs. Morten Nielsen Skype'ed and saved me with his ImageControl and the brilliance of the ViewPort.
 
             Magic
             Enough credit can not be given to Jeff Wilcox, his blog and the code that he has so thoughtfully given to the community to make Windows Phone better. Without his help, this app would suck WAY more than it does. Thanks Jeff!
@@ -56,8 +56,9 @@
       Type="text">
             1.0.3.0
             Pictures Hub integration! We're in Apps! Send pictures you are viewing straight here from the hub!
+            Custom crop when you send a picture from the Photo Hub
             Notification toast when you save a new background
-            Move the next for when your Media is playing
+            Move the text down for when your Media is playing
             Improved image quality by reducing transformations
 
             1.0.2.0
