@@ -95,7 +95,7 @@
     </Grid>
  
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" Opacity=".5">
             <shell:ApplicationBarIconButton 
                 IconUri="/Images/appbar.edit.rest.png" Text="Edit" Click="ApplicationBarEditIconButton_Click"/>
             <shell:ApplicationBarIconButton 
