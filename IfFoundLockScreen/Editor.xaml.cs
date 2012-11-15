@@ -19,6 +19,8 @@ namespace IfFoundLockScreen
         {
             InitializeComponent();
             this.DataContext = this;
+
+            LayoutRoot.Height = Application.Current.RootVisual.RenderSize.Height * 1.2;
         }
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
