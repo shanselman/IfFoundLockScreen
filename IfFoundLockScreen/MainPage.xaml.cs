@@ -137,7 +137,9 @@ namespace IfFoundLockScreen
 
         private void UpdateDateTime()
         {
-            Time.Text = DateTime.Now.ToString("h:mm");
+            var custom = System.Threading.Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortTimePattern.Replace("t", "");
+
+            Time.Text = DateTime.Now.ToString(custom);
             DayOfWeek.Text = DateTime.Now.ToString("dddd");
             MonthDay.Text = DateTime.Now.ToString("MMMM dd");
         }
