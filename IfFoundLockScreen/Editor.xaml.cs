@@ -36,7 +36,9 @@ namespace IfFoundLockScreen
         private void ApplicationBarOKIconButton_Click(object sender, EventArgs e)
         {
             RewardModel vm = ((App)(Application.Current)).ViewModel as RewardModel;
+            
             //Work around Silverlight Toolkit Bug for ToggleSwitch
+            //NOTE: There is no databinding on the WP8 version but there IS on the WP7 version for this switch
             vm.MakeRoomforMedia = this.RoomForMediaSwitch.IsChecked.HasValue ? (bool)this.RoomForMediaSwitch.IsChecked : false;
 
             ((App)(Application.Current)).SaveData();

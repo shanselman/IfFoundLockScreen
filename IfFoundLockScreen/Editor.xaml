@@ -60,8 +60,7 @@
                 <TextBox x:Name="Line3Text" Text="{Binding Line3, Mode=TwoWay}" MaxLength="64" />
                 <TextBlock x:Name="Line4" Text="Line 4" Style="{StaticResource PhoneTextSmallStyle}"/>
                 <TextBox x:Name="Line4Text" Text="{Binding Line4, Mode=TwoWay}" MaxLength="64" />
-                <toolkit:ToggleSwitch x:Name="RoomForMediaSwitch" Header="Extra room for media playing" 
-                                      IsChecked="{Binding MakeRoomPooForMedia, Mode=TwoWay}" /> 
+                <toolkit:ToggleSwitch x:Name="RoomForMediaSwitch" Header="Extra room for media playing" /> 
             </StackPanel>
         </Grid>
     </Grid>

@@ -50,7 +50,7 @@
             <RowDefinition Height="350"/> <!-- the time is hard coded -->
         </Grid.RowDefinitions>
 
-        <Grid Width="480" Height="800" Grid.RowSpan="3">
+        <Grid Width="480" VerticalAlignment="Stretch" Grid.RowSpan="3">
             <Image x:Name="CustomBackground" Margin="0,0,0,0"/>
             <Border x:Name="DimBorder" Background="Black" Opacity="0.2"/>
         </Grid>

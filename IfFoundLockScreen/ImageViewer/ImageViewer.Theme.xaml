@@ -10,7 +10,7 @@
 					<Grid x:Name="Root" Background="Transparent">
                         <!--<Image x:Name="Thumbnail" Source="{TemplateBinding Thumbnail}" CacheMode="BitmapCache" />-->
                         <Image x:Name="Image" Source="{TemplateBinding Image}" CacheMode="BitmapCache" 
-                               RenderTransformOrigin="0.5,0.5">
+                               RenderTransformOrigin="0.5,0.5" Stretch="UniformToFill">
                             <Image.RenderTransform>
                                 <RotateTransform x:Name="transform1" Angle="{TemplateBinding Angle}"></RotateTransform>
                             </Image.RenderTransform>

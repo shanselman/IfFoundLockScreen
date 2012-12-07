@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US" />
-  <App xmlns="" ProductID="{a396f06b-9379-4cc4-9980-4d17fab8c7c6}" Title="Lost Phone Screen" RuntimeType="Silverlight" Version="1.0.8.0" Genre="apps.normal" Author="Scott Hanselman" Description="Lost Phone Lock Screen - Change and personalize your phone's lock screen using new features of Windows Phone 8!" Publisher="Scott Hanselman" PublisherID="{b4d5e17d-293a-4164-87bf-fe48208fe17d}">
+  <App xmlns="" ProductID="{a396f06b-9379-4cc4-9980-4d17fab8c7c6}" Title="Lost Phone Screen" RuntimeType="Silverlight" Version="1.8.5.0" Genre="apps.normal" Author="Scott Hanselman" Description="Lost Phone Lock Screen - Change and personalize your phone's lock screen using new features of Windows Phone 8!" Publisher="Scott Hanselman" PublisherID="{b4d5e17d-293a-4164-87bf-fe48208fe17d}">
     <IconPath IsRelative="true" IsResource="false">ApplicationIcon62x62.png</IconPath>
     <Capabilities>
       <!--<Capability Name="ID_CAP_GAMERSERVICES" />
