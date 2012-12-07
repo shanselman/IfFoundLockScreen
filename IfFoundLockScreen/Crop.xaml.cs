@@ -25,6 +25,15 @@ namespace IfFoundLockScreen
         public Crop()
         {
             InitializeComponent();
+
+            if (MultiRes.Is720p)
+            {
+                imageControl.Height = 853;
+                CropBorder.Width = 338;
+                LeftDimBorder.Width = 71;
+                RightDimBorder.Width = 71;
+                BottomDimBorder.Height = 200;
+            }
         }
 
         private void ImageViewer_ImageOpened(object sender, EventArgs e)
@@ -65,28 +74,30 @@ namespace IfFoundLockScreen
             }
             sb.Begin();
 
-            sb.Completed += (s, ea) => { 
-                
-                    //When we've darkened the outside, now fly away!
+            sb.Completed += (s, ea) =>
+            {
 
-                    Storyboard sb1 = new Storyboard();
-                    sb1.Duration = new Duration(TimeSpan.FromMilliseconds(250));
-                    
-                    var flyAway = new DoubleAnimationUsingKeyFrames();
-                    flyAway.KeyFrames.Add(new LinearDoubleKeyFrame() { KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(0)), Value = 0 });
-                    flyAway.KeyFrames.Add(new LinearDoubleKeyFrame() { KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(250)), Value = 800 });
-                    
-                    Storyboard.SetTarget(flyAway, this.LayoutRoot);
-                    Storyboard.SetTargetProperty(flyAway, 
-                        new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.Y)")); 
-                    sb1.Children.Add(flyAway);
-                    sb1.Begin();
-                    sb1.Completed += (s2,ea2) => {
-                        if (NavigationService.CanGoBack)
-                            NavigationService.GoBack();
-                    };
+                //When we've darkened the outside, now fly away!
+
+                Storyboard sb1 = new Storyboard();
+                sb1.Duration = new Duration(TimeSpan.FromMilliseconds(250));
+
+                var flyAway = new DoubleAnimationUsingKeyFrames();
+                flyAway.KeyFrames.Add(new LinearDoubleKeyFrame() { KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(0)), Value = 0 });
+                flyAway.KeyFrames.Add(new LinearDoubleKeyFrame() { KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(250)), Value = 800 });
+
+                Storyboard.SetTarget(flyAway, this.LayoutRoot);
+                Storyboard.SetTargetProperty(flyAway,
+                    new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.Y)"));
+                sb1.Children.Add(flyAway);
+                sb1.Begin();
+                sb1.Completed += (s2, ea2) =>
+                {
+                    if (NavigationService.CanGoBack)
+                        NavigationService.GoBack();
+                };
             };
-            
+
         }
 
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
@@ -94,7 +105,7 @@ namespace IfFoundLockScreen
             this.NavigationService.RemoveBackEntry();
             base.OnBackKeyPress(e);
         }
-        
+
         public class DataContextObject
         {
             public Uri ImageUri { get; set; }
@@ -113,7 +124,7 @@ namespace IfFoundLockScreen
             if (System.Diagnostics.Debugger.IsAttached)
             {
                 imageControl.Image = new BitmapImage(new Uri("Images/BigImage.jpg", UriKind.Relative));
-                
+
             }
 
             if (queryStrings.ContainsKey("token"))
@@ -121,7 +132,7 @@ namespace IfFoundLockScreen
                 // Retrieve the picture from the media library using the token passed to the application.
                 MediaLibrary library = new MediaLibrary();
                 Picture picture = library.GetPictureFromToken(queryStrings["token"]);
-                
+
                 // Create a WriteableBitmap object and add it to the Image control Source property.
                 Stream s = picture.GetImage();
                 JpegInfo info = ExifLib.ExifReader.ReadJpeg(s, "magic.jpg");
@@ -152,7 +163,7 @@ namespace IfFoundLockScreen
 
                 //DEBUG
                 //MessageBox.Show("Angle: " + _angle);
-                
+
                 //Stream resultStream;
                 //if (_angle > 0d)
                 //{
@@ -175,55 +186,99 @@ namespace IfFoundLockScreen
             base.OnNavigatedTo(e);
         }
 
-          private Stream RotateStream(Stream stream, int angle)
-          {
-              stream.Position = 0;
-              if (angle % 90 != 0 || angle < 0) throw new ArgumentException();
-              if (angle % 360 == 0) return stream;
-   
-              BitmapImage bitmap = new BitmapImage();
-              bitmap.SetSource(stream);
-              WriteableBitmap wbSource = new WriteableBitmap(bitmap);
-   
-              WriteableBitmap wbTarget = null;
-              if (angle % 180 == 0)
-              {
-                  wbTarget = new WriteableBitmap(wbSource.PixelWidth, wbSource.PixelHeight);
-              }
-              else
-              {
-                  wbTarget = new WriteableBitmap(wbSource.PixelHeight, wbSource.PixelWidth);
-              }
+        private Stream RotateStream(Stream stream, int angle)
+        {
+            stream.Position = 0;
+            if (angle % 90 != 0 || angle < 0) throw new ArgumentException();
+            if (angle % 360 == 0) return stream;
 
-              int width = wbSource.PixelWidth;
-              int height = wbSource.PixelHeight;
-              int targetWidth = wbTarget.PixelWidth;
-              int[] sourcePixels = wbSource.Pixels;
-              int[] targetPixels = wbTarget.Pixels;
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.SetSource(stream);
+            WriteableBitmap wbSource = new WriteableBitmap(bitmap);
 
-              for (int x = 0; x < wbSource.PixelWidth; x++)
-              {
-                  for (int y = 0; y < wbSource.PixelHeight; y++)
-                  {
-                      switch (angle % 360)
-                      {
-                          case 90:
-                              targetPixels[(height - y - 1) + x * targetWidth] = sourcePixels[x + y * width];
-                              break;
-                          case 180:
-                              targetPixels[(width - x - 1) + (height - y - 1) * width] = sourcePixels[x + y * width];
-                              break;
-                          case 270:
-                              targetPixels[y + (width - x - 1) * targetWidth] = sourcePixels[x + y * width];
-                              break;
-                      }
-                  }
-              }
-              MemoryStream targetStream = new MemoryStream();
-              wbTarget.SaveJpeg(targetStream, wbTarget.PixelWidth, wbTarget.PixelHeight, 0, 100);
-              return targetStream;
-           }
+            WriteableBitmap wbTarget = null;
+            if (angle % 180 == 0)
+            {
+                wbTarget = new WriteableBitmap(wbSource.PixelWidth, wbSource.PixelHeight);
+            }
+            else
+            {
+                wbTarget = new WriteableBitmap(wbSource.PixelHeight, wbSource.PixelWidth);
+            }
+
+            int width = wbSource.PixelWidth;
+            int height = wbSource.PixelHeight;
+            int targetWidth = wbTarget.PixelWidth;
+            int[] sourcePixels = wbSource.Pixels;
+            int[] targetPixels = wbTarget.Pixels;
+
+            for (int x = 0; x < wbSource.PixelWidth; x++)
+            {
+                for (int y = 0; y < wbSource.PixelHeight; y++)
+                {
+                    switch (angle % 360)
+                    {
+                        case 90:
+                            targetPixels[(height - y - 1) + x * targetWidth] = sourcePixels[x + y * width];
+                            break;
+                        case 180:
+                            targetPixels[(width - x - 1) + (height - y - 1) * width] = sourcePixels[x + y * width];
+                            break;
+                        case 270:
+                            targetPixels[y + (width - x - 1) * targetWidth] = sourcePixels[x + y * width];
+                            break;
+                    }
+                }
+            }
+            MemoryStream targetStream = new MemoryStream();
+            wbTarget.SaveJpeg(targetStream, wbTarget.PixelWidth, wbTarget.PixelHeight, 0, 100);
+            return targetStream;
+        }
     }
+
+    public static class MultiRes
+    {
+        public static bool IsHighResolution
+        {
+            get { return Application.Current.Host.Content.ScaleFactor > 100; }
+        }
+
+        public static bool IsLowResolution
+        {
+            get { return Application.Current.Host.Content.ScaleFactor <= 100; }
+        }
+
+        public static bool IsWvga
+        {
+            get
+            {
+                return Application.Current.Host.Content.ActualHeight == 800
+                    && Application.Current.Host.Content.ScaleFactor == 100;
+            }
+        }
+
+        public static bool IsWxga
+        {
+            get { return Application.Current.Host.Content.ScaleFactor == 160; }
+        }
+
+        public static bool Is720p
+        {
+            get { return Application.Current.Host.Content.ScaleFactor == 150; }
+        }
+
+        public static String CurrentResolution
+        {
+            get
+            {
+                if (IsWvga) return "WVGA";
+                else if (IsWxga) return "WXGA";
+                else if (Is720p) return "HD720p";
+                else throw new InvalidOperationException("Unknown resolution");
+            }
+        }
+    }
+
 }
 
 

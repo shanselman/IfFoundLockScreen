@@ -57,6 +57,12 @@
         </Item>
         "<Item Title="history"
       Type="text">
+            1.8.5.0
+            Updated for Windows Phone 8! Support for multiple resolutions, high-def screens and 720p aspect ratios.
+            We can update your lock screen from within the app now!
+            Easier scrolling on the Edit page
+            Localization fixes for European users
+            
             1.0.3.0
             Pictures Hub integration! We're in Apps! Send pictures you are viewing straight here from the hub!
             Custom crop when you send a picture from the Photo Hub

@@ -70,6 +70,10 @@ namespace IfFoundLockScreen
             //TODO: Screenshots!
             //System.Windows.ScreenShots.BeginTakingPictures();
 
+            var h = App.Current.Host.Content.ActualHeight;
+            var w = App.Current.Host.Content.ActualWidth;
+            var scale = App.Current.Host.Content.ScaleFactor;
+
         }
 
         // Code to execute when the application is launching (eg, from Start)
