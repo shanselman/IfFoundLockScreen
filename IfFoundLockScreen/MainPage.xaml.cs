@@ -1,39 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Net;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
 using Windows.Phone.System.UserProfile;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Input = System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using System.ComponentModel;
 using Microsoft.Phone.Tasks;
-using System.IO.IsolatedStorage;
-using System.Windows.Resources;
 using System.Windows.Media.Imaging;
 using System.IO;
-using Microsoft.Xna.Framework.Media;
 using System.Windows.Controls.Primitives;
 using Microsoft.Phone.Shell;
 using Coding4Fun.Phone.Controls;
 using System.Windows.Data;
 using System.Globalization;
-using Path = System.IO.Path;
-using System.Runtime.Serialization;
+using QEDCode;
 
 namespace IfFoundLockScreen
 {
     public partial class MainPage : PhoneApplicationPage
     {
         PhotoChooserTask photoChooserTask;
+        AwaitableCriticalSection acs = new AwaitableCriticalSection();
 
         // Constructor
         public MainPage()
@@ -271,59 +261,60 @@ namespace IfFoundLockScreen
 
         private async void CreateImageToSaveAsWallpaper()
         {
-            var bitmap = new System.Windows.Media.Imaging.WriteableBitmap(this.LayoutRoot, null);
-            using (var stream = new System.IO.MemoryStream())
+            using (var section = await acs.EnterAsync())
             {
-                System.Windows.Media.Imaging.Extensions.SaveJpeg(bitmap, stream,
-                                bitmap.PixelWidth, bitmap.PixelHeight, 0, 100);
-                stream.Position = 0;
-                var datetime = System.DateTime.Now;
-                var filename =
-                    System.String.Format("LockScreen-{0}-{1}-{2}-{3}-{4}-{5}.jpg",
-                        datetime.Year % 100, datetime.Month, datetime.Day,
-                        datetime.Hour, datetime.Minute, datetime.Second);
-
-
-                var mediaLib = new Microsoft.Xna.Framework.Media.MediaLibrary();
-                mediaLib.SavePicture(filename, stream);
-                stream.Seek(0, SeekOrigin.Begin);
-                ShowAfterSnapshot();
-
-
-                var file = await ApplicationData.Current.LocalFolder.CreateFileAsync(filename, CreationCollisionOption.ReplaceExisting);
-                using (var s = await file.OpenAsync(FileAccessMode.ReadWrite))
-                using (var dw = new DataWriter(s))
+                var bitmap = new System.Windows.Media.Imaging.WriteableBitmap(this.LayoutRoot, null);
+                using (var stream = new System.IO.MemoryStream())
                 {
-                    byte[] imageData = new byte[stream.Length];
-                    await stream.ReadAsync(imageData, 0, (int) stream.Length);
-                    dw.WriteBytes(imageData);
-                    await dw.StoreAsync();
-                }
+                    System.Windows.Media.Imaging.Extensions.SaveJpeg(bitmap, stream,
+                                    bitmap.PixelWidth, bitmap.PixelHeight, 0, 100);
+                    stream.Position = 0;
+                    var datetime = System.DateTime.Now;
+                    var filename =
+                        System.String.Format("LockScreen-{0}-{1}-{2}-{3}-{4}-{5}.jpg",
+                            datetime.Year % 100, datetime.Month, datetime.Day,
+                            datetime.Hour, datetime.Minute, datetime.Second);
 
-                if (!LockScreenManager.IsProvidedByCurrentApplication)
-                {
-                    LockScreenRequestResult result = await LockScreenManager.RequestAccessAsync();
-                    if (result == LockScreenRequestResult.Granted)
+                    var mediaLib = new Microsoft.Xna.Framework.Media.MediaLibrary();
+                    mediaLib.SavePicture(filename, stream);
+                    stream.Seek(0, SeekOrigin.Begin);
+                    ShowAfterSnapshot();
+
+                    var file = await ApplicationData.Current.LocalFolder.CreateFileAsync(filename, CreationCollisionOption.ReplaceExisting);
+                    using (var s = await file.OpenAsync(FileAccessMode.ReadWrite))
+                    using (var dw = new DataWriter(s))
+                    {
+                        byte[] imageData = new byte[stream.Length];
+                        await stream.ReadAsync(imageData, 0, (int)stream.Length);
+                        dw.WriteBytes(imageData);
+                        await dw.StoreAsync();
+                    }
+
+                    if (!LockScreenManager.IsProvidedByCurrentApplication)
+                    {
+                        LockScreenRequestResult result = await LockScreenManager.RequestAccessAsync();
+                        if (result == LockScreenRequestResult.Granted)
+                        {
+                            SetAsWallpaper(filename);
+                        }
+                    }
+                    else
                     {
                         SetAsWallpaper(filename);
                     }
-                }
-                else
-                {
-                    SetAsWallpaper(filename);
-                }
 
-                var toast = new ToastPrompt
-                {
-                    Title = "Saved",
-                    Message = @"Saved! Lock your phone to see!"
-                };
-                toast.Show();
+                    var toast = new ToastPrompt
+                    {
+                        Title = "Saved",
+                        Message = @"Saved! Lock your phone to see!"
+                    };
+                    toast.Show();
+                }
             }
         }
 
 
-        private  void SetAsWallpaper(string filename)
+        private void SetAsWallpaper(string filename)
         {
             string realPath = "ms-appdata:///local/" + filename;
             //string realPath = "file://" + filename.Replace(@"\", "/");
@@ -334,6 +325,7 @@ namespace IfFoundLockScreen
             ;
             Debug.WriteLine(realPath);
             //Debug.WriteLine(ApplicationData.Current.LocalFolder.Path);
+
             LockScreen.SetImageUri(new Uri(realPath, UriKind.Absolute));
         }
 
