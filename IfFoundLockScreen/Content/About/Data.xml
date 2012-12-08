@@ -30,7 +30,7 @@
                 <Link NavigateUri="http://lostphonescreen.uservoice.com"
                        Content="http://lostphonescreen.uservoice.com"
                        Label="Support:" />
-                <Link NavigateUri="http://www.hansleman.com"
+                <Link NavigateUri="http://www.hanselman.com"
                        Content="http://www.hanselman.com"
                        Label="Blog:" />
             </Links>
@@ -40,20 +40,23 @@
         <!-- Each Item can be a remote item (fetched from a Uri) or a local item (using its content), or both (local content is the fallback value if fetching the network content fails) -->
         <!-- Supported types are "text" and "xaml", where text is nicely formatted automatically, and XAML is handled by the built-in XamlReader -->
         <Item Title="credits" Type="text">
-            Code
-            Scott Hanselman wrote this as his first Windows Phone application in about 6 hours. He was kindly assisted at lunch by Hughes Hilton, who paid for tacos, and late into the night peer programming over Skype with the very patient Bil Simser who helped squash a few Heisenbugs. Morten Nielsen Skype'ed and saved me with his ImageControl and the brilliance of the ViewPort.
+          Code
+          Scott Hanselman wrote this as his first Windows Phone application in about 6 hours. He was kindly assisted at lunch by Hughes Hilton, who paid for tacos, and late into the night peer programming over Skype with the very patient Bil Simser who helped squash a few Heisenbugs. Morten Nielsen Skype'ed and saved me with his ImageControl and the brilliance of the ViewPort.
 
-            Magic
-            Enough credit can not be given to Jeff Wilcox, his blog and the code that he has so thoughtfully given to the community to make Windows Phone better. Without his help, this app would suck WAY more than it does. Thanks Jeff!
-            
-            Windows Phone 8
-            Thanks to Justin Angel for his guidance around Windows Phone 8 and his suggestion and code to update the Lock Screen automatically! Nice suit!
-            
-            Art
-            Jin Yang "@jzy" drew our sad little milk carton phone. Jin has been paid exclusively in bacon.
+          Magic
+          Enough credit can not be given to Jeff Wilcox, his blog and the code that he has so thoughtfully given to the community to make Windows Phone better. Without his help, this app would suck WAY more than it does. Thanks Jeff!
 
-            Stock Photo
-            The initial stock photo wallpaper is by Thomas Pentenrieder. It's used under the Creative Commons License with Attribution. You can see more of Thomas' excellent Windows Phone 7 Wallpapers on Flickr at http://flic.kr/photos/pentenrieder.
+          Windows Phone 8
+          Thanks to Justin Angel for his guidance around Windows Phone 8 and his suggestion and code to update the Lock Screen automatically! Nice suit!
+
+          Code
+          Thanks to Michael L Perry for his Awaitable Critical Section code at http://qedcode.com/content/awaitable-critical-section and Morton Nielsen for his SharpGIS Image Viewer http://www.sharpgis.net. I could not have made this app without community leaders like these folks and many others.
+
+          Art
+          Jin Yang "@jzy" drew our sad little milk carton phone. Jin has been paid exclusively in bacon.
+
+          Stock Photo
+          The initial stock photo wallpaper is by Thomas Pentenrieder. It's used under the Creative Commons License with Attribution. You can see more of Thomas' excellent Windows Phone 7 Wallpapers on Flickr at http://flic.kr/photos/pentenrieder.
         </Item>
         "<Item Title="history"
       Type="text">

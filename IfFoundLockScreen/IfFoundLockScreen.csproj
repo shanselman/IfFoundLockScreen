@@ -119,6 +119,7 @@
     <Compile Include="Crop.xaml.cs">
       <DependentUpon>Crop.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AwaitableCriticalSection.cs" />
     <Compile Include="Helpers\EXIBLib\ExifIds.cs" />
     <Compile Include="Helpers\EXIBLib\ExifIO.cs" />
     <Compile Include="Helpers\EXIBLib\ExifReader.cs" />
@@ -179,6 +180,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="IfFoundLockScreen_2012_11_14_20_29_06.sap" />
+    <None Include="IfFoundLockScreen_2012_12_07_15_01_12.sap" />
     <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml">
@@ -186,6 +188,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ApplicationIcon400x400.png" />
     <Content Include="ApplicationIcon62x62.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
